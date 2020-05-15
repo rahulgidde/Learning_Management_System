@@ -7,7 +7,6 @@ import com.bridgelabz.lmsapplication.service.ForgetPasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
 import javax.mail.MessagingException;
 
 @RestController
