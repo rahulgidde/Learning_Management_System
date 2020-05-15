@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LmsRepository extends JpaRepository<UserDetail, Long> {
     UserDetail findByUsername(String username);
+    UserDetail findByEmail(String email);
 }
