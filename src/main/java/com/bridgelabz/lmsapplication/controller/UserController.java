@@ -6,7 +6,7 @@ import com.bridgelabz.lmsapplication.model.JwtRequest;
 import com.bridgelabz.lmsapplication.model.JwtResponse;
 import com.bridgelabz.lmsapplication.model.UserDetail;
 import com.bridgelabz.lmsapplication.util.JwtTokenUtil;
-import com.bridgelabz.lmsapplication.service.JwtUserDetailsService;
+import com.bridgelabz.lmsapplication.service.UserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,7 +26,7 @@ public class UserController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    JwtUserDetailsService service;
+    UserDetailService service;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;

@@ -19,7 +19,7 @@ import javax.mail.internet.MimeMessage;
 import java.util.ArrayList;
 
 @Service
-public class JwtUserDetailsService implements UserDetailsService {
+public class UserDetailService implements UserDetailsService {
 
     @Autowired
     LmsRepository repository;
