@@ -33,6 +33,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     @Autowired
     JavaMailSender javaMailSender;
 
+    //METHOD FOR FIND RECORD FORM REPOSITORY BY USERNAME
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserDetail user = repository.findByUsername(username);
@@ -43,6 +44,7 @@ public class JwtUserDetailsService implements UserDetailsService {
                 new ArrayList<>());
     }
 
+    //METHOD FOR LOAD USER DETAILS
     public UserDetail loadUserDetails(UserDto userDto) {
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         UserDetail user = mapper.map(userDto, UserDetail.class);
@@ -50,17 +52,20 @@ public class JwtUserDetailsService implements UserDetailsService {
         return user;
     }
 
+    //METHOD FOR FIND RECORD FORM REPOSITORY BY EMAIL
     public UserDetail findByEmail(String email) {
         UserDetail userDetail = repository.findByEmail(email);
         return userDetail;
     }
 
+    //METHOD FOR REST PASSWORD
     public UserDetail resetPassword(Long id, String password) {
         UserDetail user = repository.findById(id).get();
         user.setPassword(password);
         return repository.save(user);
     }
 
+    //METHOD  FOR SEND EMAIL
     public void sendEmail(EmailDto emailDto, String token) throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper;

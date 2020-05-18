@@ -77,7 +77,7 @@ public class UserController {
         UserDetail user = service.findByEmail(emailDto.getEmailId());
         final String token = jwtTokenUtil.generateEmailToken(user.getId());
         service.sendEmail(emailDto, token);
-        return "Mail Send Successfully";
+        return "Email Send Successfully";
     }
 
     //RESET PASSWORD API
@@ -85,6 +85,6 @@ public class UserController {
     public String resetPassword(@RequestParam(value = "password") String password, @RequestParam(value = "token") String token) {
         String id = jwtTokenUtil.getUsernameFromToken(token);
         service.resetPassword(Long.valueOf(id), passwordEncoder.encode(password));
-        return "Password Changed";
+        return "Password Changed Successfully";
     }
 }
