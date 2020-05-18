@@ -1,7 +1,6 @@
 package com.bridgelabz.lmsapplication.configuration;
 
-import com.bridgelabz.lmsapplication.security.JwtAuthenticationEntryPoint;
-import com.bridgelabz.lmsapplication.security.JwtRequestFilter;
+import com.bridgelabz.lmsapplication.filter.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

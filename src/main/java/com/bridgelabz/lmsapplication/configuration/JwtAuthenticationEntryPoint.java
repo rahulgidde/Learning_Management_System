@@ -1,4 +1,4 @@
-package com.bridgelabz.lmsapplication.security;
+package com.bridgelabz.lmsapplication.configuration;
 
 import java.io.IOException;
 import java.io.Serializable;

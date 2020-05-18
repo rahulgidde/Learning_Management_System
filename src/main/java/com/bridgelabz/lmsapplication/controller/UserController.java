@@ -5,7 +5,7 @@ import com.bridgelabz.lmsapplication.dto.UserDto;
 import com.bridgelabz.lmsapplication.model.JwtRequest;
 import com.bridgelabz.lmsapplication.model.JwtResponse;
 import com.bridgelabz.lmsapplication.model.UserDetail;
-import com.bridgelabz.lmsapplication.security.JwtTokenUtil;
+import com.bridgelabz.lmsapplication.util.JwtTokenUtil;
 import com.bridgelabz.lmsapplication.service.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

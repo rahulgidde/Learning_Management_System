@@ -1,4 +1,4 @@
-package com.bridgelabz.lmsapplication.security;
+package com.bridgelabz.lmsapplication.filter;
 
 import java.io.IOException;
 
@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.bridgelabz.lmsapplication.service.JwtUserDetailsService;
+import com.bridgelabz.lmsapplication.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

@@ -1,4 +1,4 @@
-package com.bridgelabz.lmsapplication.security;
+package com.bridgelabz.lmsapplication.util;
 
 import java.io.Serializable;
 import java.util.Date;
