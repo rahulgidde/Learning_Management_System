@@ -3,7 +3,6 @@ package com.bridgelabz.lmsapplication.controller;
 import com.bridgelabz.lmsapplication.dto.EmailDto;
 import com.bridgelabz.lmsapplication.model.UserDetail;
 import com.bridgelabz.lmsapplication.security.JwtTokenUtil;
-import com.bridgelabz.lmsapplication.service.ForgetPasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;

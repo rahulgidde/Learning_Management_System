@@ -1,16 +1,21 @@
 package com.bridgelabz.lmsapplication.service;
 
+import com.bridgelabz.lmsapplication.dto.EmailDto;
 import com.bridgelabz.lmsapplication.dto.UserDto;
 import com.bridgelabz.lmsapplication.model.UserDetail;
 import com.bridgelabz.lmsapplication.repository.LmsRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.util.ArrayList;
 
 @Service
@@ -20,13 +25,13 @@ public class JwtUserDetailsService implements UserDetailsService {
     LmsRepository repository;
 
     @Autowired
-    PasswordEncoder bcryptEncoder;
+    PasswordEncoder passwordEncoder;
 
     @Autowired
     ModelMapper mapper;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    JavaMailSender javaMailSender;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -43,5 +48,26 @@ public class JwtUserDetailsService implements UserDetailsService {
         UserDetail user = mapper.map(userDto, UserDetail.class);
         repository.save(user);
         return user;
+    }
+
+    public UserDetail findByEmail(String email) {
+        UserDetail userDetail = repository.findByEmail(email);
+        return userDetail;
+    }
+
+    public UserDetail resetPassword(Long id, String password) {
+        UserDetail user = repository.findById(id).get();
+        user.setPassword(password);
+        return repository.save(user);
+    }
+
+    public void sendEmail(EmailDto emailDto, String token) throws MessagingException {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper;
+        helper = new MimeMessageHelper(message, true);
+        helper.setSubject(emailDto.getSubject());
+        helper.setTo(emailDto.getEmailId());
+        helper.setText(token, true);
+        javaMailSender.send(message);
     }
 }
