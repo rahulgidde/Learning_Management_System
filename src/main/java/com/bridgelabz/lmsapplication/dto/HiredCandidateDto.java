@@ -1,47 +1,43 @@
-package com.bridgelabz.lmsapplication.model;
+package com.bridgelabz.lmsapplication.dto;
 
-import javax.persistence.*;
 import java.util.Date;
 
-@Entity(name = "hired_candidate")
-@Table
-public class HiredCandidate {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class HiredCandidateDto {
+
     private Long id;
-    @Column
+
     private String first_name;
-    @Column
+
     private String middle_name;
-    @Column
+
     private String last_name;
-    @Column
-    private String email;
-    @Column
+
+    private String email_id;
+
     private String hired_city;
-    @Column
+
     private String degree;
-    @Column
+
     private Date hired_date;
-    @Column
+
     private long mobile_number;
-    @Column
+
     private long permanent_pincode;
-    @Column
+
     private String hired_lab;
-    @Column
+
     private String attitude;
-    @Column
+
     private String communication_remark;
-    @Column
+
     private String knowledge_remark;
-    @Column
+
     private String aggregate_remark;
-    @Column
+
     private String status;
-    @Column
+
     private Date creator_stamp;
-    @Column
+
     private String creator_user;
 
     public Long getId() {
@@ -76,12 +72,12 @@ public class HiredCandidate {
         this.last_name = last_name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getEmail_id() {
+        return email_id;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEmail_id(String email_id) {
+        this.email_id = email_id;
     }
 
     public String getHired_city() {
