@@ -11,7 +11,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,11 +29,17 @@ public class HiredCandidateImpl implements HiredCandidateService {
     HiredCandidateDto hiredCandidateDto = new HiredCandidateDto();
 
     @Override
-    public List getHiredCandidates() {
+    public List getHiredCandidatesList() {
         return repository.findAll();
     }
 
-    public List loadExcelData() throws IOException {
+    @Override
+    public HiredCandidateModel getHiredCandidatesProfile(String candidateName) {
+        return repository.findByFirst_name(candidateName);
+    }
+
+    @Override
+    public List loadHiredCandidateSheet() {
         String path = "./src/main/resources/HiredCandidates.xlsx";
         boolean flag = true;
         List sheetData = new ArrayList();
