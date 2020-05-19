@@ -1,9 +1,11 @@
 package com.bridgelabz.lmsapplication.controller;
 
+import com.bridgelabz.lmsapplication.model.HiredCandidateModel;
 import com.bridgelabz.lmsapplication.service.HiredCandidateImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -14,14 +16,19 @@ public class HiredCandidate {
     @Autowired
     HiredCandidateImpl service;
 
-    @GetMapping("/hiredCandidateList")
-    public List getHiredCandidate() {
-        return service.getHiredCandidates();
+    @PostMapping("/loadHiredCandidates")
+    public String read() throws IOException {
+        service.loadHiredCandidateSheet();
+        return "Loaded Hired Candidate Successfully";
     }
 
-    @PostMapping("/read")
-    public String read() throws IOException {
-        service.loadExcelData();
-        return "sucess";
+    @GetMapping("/hiredCandidateList")
+    public List getHiredCandidate() {
+        return service.getHiredCandidatesList();
+    }
+
+    @GetMapping("/hiredCandidateProfile")
+    public HiredCandidateModel getCandidateProfile(@RequestParam("candidateName") String candidateName) {
+        return service.getHiredCandidatesProfile(candidateName);
     }
 }
