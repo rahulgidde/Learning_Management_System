@@ -14,17 +14,20 @@ public class HiredCandidateController {
     @Autowired
     private HiredCandidateImpl service;
 
+    //API FOR LOAD HIDER CANDIDATE LIST
     @PostMapping("/loadHiredCandidates")
     public String loadHiredCandidates() throws IOException {
         service.loadHiredCandidateSheet();
         return "Loaded Hired Candidate Successfully";
     }
 
+    //API FOR GET HIDER CANDIDATE LIST
     @GetMapping("/hiredCandidateList")
     public List getHiredCandidateList() {
         return service.getHiredCandidatesList();
     }
 
+    //API FOR GET HIRED CANDIDATE PROFILE
     @GetMapping("/hiredCandidateProfile")
     public HiredCandidateModel getCandidateProfile(@RequestParam("candidateName") String candidateName) {
         return service.getHiredCandidatesProfile(candidateName);

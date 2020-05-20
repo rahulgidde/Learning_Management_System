@@ -26,16 +26,19 @@ public class HiredCandidateImpl implements HiredCandidateService {
     @Autowired
     private ModelMapper mapper;
 
+    //METHOD FOR GET HIRED CANDIDATE LIST
     @Override
     public List getHiredCandidatesList() {
         return repository.findAll();
     }
 
+    //METHOD FOR GET HIRED CANDIDATE  PROFILE
     @Override
     public HiredCandidateModel getHiredCandidatesProfile(String candidateName) {
         return repository.findByFirst_name(candidateName);
     }
 
+    //METHOD FOR LOAD HIRED CANDIDATE EXCEL SHEET
     @Override
     public void loadHiredCandidateSheet() {
         String path = "./src/main/resources/HiredCandidates.xlsx";
