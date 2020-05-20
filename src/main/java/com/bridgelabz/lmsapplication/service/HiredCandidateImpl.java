@@ -39,7 +39,7 @@ public class HiredCandidateImpl implements HiredCandidateService {
     }
 
     @Override
-    public List loadHiredCandidateSheet() {
+    public void loadHiredCandidateSheet() {
         String path = "./src/main/resources/HiredCandidates.xlsx";
         boolean flag = true;
         List sheetData = new ArrayList();
@@ -99,6 +99,5 @@ public class HiredCandidateImpl implements HiredCandidateService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return sheetData;
     }
 }
