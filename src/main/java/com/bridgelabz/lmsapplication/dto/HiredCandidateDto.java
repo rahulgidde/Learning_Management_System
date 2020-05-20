@@ -44,7 +44,7 @@ public class HiredCandidateDto {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

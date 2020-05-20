@@ -15,6 +15,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class HiredCandidateImpl implements IHiredCandidateService {
@@ -33,8 +34,8 @@ public class HiredCandidateImpl implements IHiredCandidateService {
 
     //METHOD FOR GET HIRED CANDIDATE  PROFILE
     @Override
-    public HiredCandidateModel getHiredCandidatesProfile(String candidateName) {
-        return repository.findByFirstName(candidateName);
+    public Optional<HiredCandidateModel> getHiredCandidatesProfile(Long candidateId) {
+        return repository.findById(candidateId);
     }
 
     //METHOD FOR LOAD HIRED CANDIDATE EXCEL SHEET

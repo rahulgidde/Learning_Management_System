@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/hirecandidate")
@@ -30,7 +31,7 @@ public class HiredCandidateController {
 
     //API FOR GET HIRED CANDIDATE PROFILE
     @GetMapping("/hiredcandidateprofile")
-    public HiredCandidateModel getCandidateProfile(@RequestParam("candidateName") String candidateName) {
-        return service.getHiredCandidatesProfile(candidateName);
+    public Optional<HiredCandidateModel> getCandidateProfile(@RequestParam("candidateName") Long candidateId) {
+        return service.getHiredCandidatesProfile(candidateId);
     }
 }

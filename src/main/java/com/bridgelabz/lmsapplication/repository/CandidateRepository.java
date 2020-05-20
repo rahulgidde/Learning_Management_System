@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CandidateRepository extends JpaRepository<HiredCandidateModel, Long> {
-    HiredCandidateModel findByFirstName(String candidateName);
 }
