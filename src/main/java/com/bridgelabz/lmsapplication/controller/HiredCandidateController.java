@@ -1,7 +1,7 @@
 package com.bridgelabz.lmsapplication.controller;
 
 import com.bridgelabz.lmsapplication.model.HiredCandidateModel;
-import com.bridgelabz.lmsapplication.service.HiredCandidateImpl;
+import com.bridgelabz.lmsapplication.service.IHiredCandidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,8 +11,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/hireCandidate")
 public class HiredCandidateController {
+
     @Autowired
-    private HiredCandidateImpl service;
+    private IHiredCandidateService service;
 
     //API FOR LOAD HIDER CANDIDATE LIST
     @PostMapping("/loadHiredCandidates")
