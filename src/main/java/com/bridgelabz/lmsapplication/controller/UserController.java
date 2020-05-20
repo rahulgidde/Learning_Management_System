@@ -1,9 +1,7 @@
 package com.bridgelabz.lmsapplication.controller;
 
-import com.bridgelabz.lmsapplication.dto.EmailDto;
 import com.bridgelabz.lmsapplication.dto.UserDto;
 import com.bridgelabz.lmsapplication.model.JwtRequest;
-import com.bridgelabz.lmsapplication.model.UserDetailModel;
 import com.bridgelabz.lmsapplication.service.IUserService;
 import com.bridgelabz.lmsapplication.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,11 +45,7 @@ public class UserController {
     //FORGET PASSWORD API
     @RequestMapping(value = "/sendemail", method = RequestMethod.POST)
     public String sentMail(@RequestParam(value = "emailId") String emailId) throws MessagingException {
-        EmailDto emailDto = new EmailDto();
-        emailDto.setEmailId(emailId);
-        UserDetailModel user = userService.findByEmail(emailDto.getEmailId());
-        final String token = jwtTokenUtil.generateEmailToken(user.getId());
-        userService.sendEmail(emailDto, token);
+        userService.sendEmail(emailId);
         return "Email Send Successfully";
     }
 
