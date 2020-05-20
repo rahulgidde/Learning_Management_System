@@ -4,7 +4,7 @@ import com.bridgelabz.lmsapplication.dto.EmailDto;
 import com.bridgelabz.lmsapplication.dto.UserDto;
 import com.bridgelabz.lmsapplication.model.JwtRequest;
 import com.bridgelabz.lmsapplication.model.JwtResponse;
-import com.bridgelabz.lmsapplication.model.UserDetail;
+import com.bridgelabz.lmsapplication.model.UserDetailModel;
 import com.bridgelabz.lmsapplication.repository.UserRepository;
 import com.bridgelabz.lmsapplication.util.JwtTokenUtil;
 import org.modelmapper.ModelMapper;
@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
     //METHOD FOR FIND RECORD FORM REPOSITORY BY USERNAME
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserDetail user = repository.findByUsername(username);
+        UserDetailModel user = repository.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
@@ -61,24 +61,24 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
 
     //METHOD FOR LOAD USER DETAILS
     @Override
-    public UserDetail loadUserDetails(UserDto userDto) {
+    public UserDetailModel loadUserDetails(UserDto userDto) {
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        UserDetail user = mapper.map(userDto, UserDetail.class);
+        UserDetailModel user = mapper.map(userDto, UserDetailModel.class);
         repository.save(user);
         return user;
     }
 
     //METHOD FOR FIND RECORD FORM REPOSITORY BY EMAIL
     @Override
-    public UserDetail findByEmail(String email) {
-        UserDetail userDetail = repository.findByEmail(email);
+    public UserDetailModel findByEmail(String email) {
+        UserDetailModel userDetail = repository.findByEmail(email);
         return userDetail;
     }
 
     //METHOD FOR REST PASSWORD
     @Override
-    public UserDetail resetPassword(Long id, String password) {
-        UserDetail user = repository.findById(id).get();
+    public UserDetailModel resetPassword(Long id, String password) {
+        UserDetailModel user = repository.findById(id).get();
         user.setPassword(password);
         return repository.save(user);
     }

@@ -3,7 +3,7 @@ package com.bridgelabz.lmsapplication.controller;
 import com.bridgelabz.lmsapplication.dto.EmailDto;
 import com.bridgelabz.lmsapplication.dto.UserDto;
 import com.bridgelabz.lmsapplication.model.JwtRequest;
-import com.bridgelabz.lmsapplication.model.UserDetail;
+import com.bridgelabz.lmsapplication.model.UserDetailModel;
 import com.bridgelabz.lmsapplication.service.IUserService;
 import com.bridgelabz.lmsapplication.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +49,7 @@ public class UserController {
     public String sentMail(@RequestParam(value = "emailId") String emailId) throws MessagingException {
         EmailDto emailDto = new EmailDto();
         emailDto.setEmailId(emailId);
-        UserDetail user = userService.findByEmail(emailDto.getEmailId());
+        UserDetailModel user = userService.findByEmail(emailDto.getEmailId());
         final String token = jwtTokenUtil.generateEmailToken(user.getId());
         userService.sendEmail(emailDto, token);
         return "Email Send Successfully";

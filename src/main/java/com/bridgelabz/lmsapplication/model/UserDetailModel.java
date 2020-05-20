@@ -5,7 +5,7 @@ import java.util.Date;
 
 @Entity(name = "userdetail")
 @Table
-public class UserDetail {
+public class UserDetailModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
