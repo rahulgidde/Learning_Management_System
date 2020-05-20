@@ -77,8 +77,9 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
 
     //METHOD FOR REST PASSWORD
     @Override
-    public UserDetailModel resetPassword(Long id, String password) {
-        UserDetailModel user = repository.findById(id).get();
+    public UserDetailModel resetPassword(String token, String password) {
+        String id = jwtTokenUtil.getUsernameFromToken(token);
+        UserDetailModel user = repository.findById(Long.valueOf(id)).get();
         user.setPassword(password);
         return repository.save(user);
     }
