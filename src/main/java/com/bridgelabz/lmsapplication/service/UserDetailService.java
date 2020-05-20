@@ -3,7 +3,7 @@ package com.bridgelabz.lmsapplication.service;
 import com.bridgelabz.lmsapplication.dto.EmailDto;
 import com.bridgelabz.lmsapplication.dto.UserDto;
 import com.bridgelabz.lmsapplication.model.UserDetail;
-import com.bridgelabz.lmsapplication.repository.LmsRepository;
+import com.bridgelabz.lmsapplication.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class UserDetailService implements UserDetailsService {
 
     @Autowired
-    LmsRepository repository;
+    UserRepository repository;
 
     @Autowired
     PasswordEncoder passwordEncoder;
