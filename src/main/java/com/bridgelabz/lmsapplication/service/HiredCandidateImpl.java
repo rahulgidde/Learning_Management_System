@@ -26,8 +26,6 @@ public class HiredCandidateImpl implements HiredCandidateService {
     @Autowired
     ModelMapper mapper;
 
-    HiredCandidateDto hiredCandidateDto = new HiredCandidateDto();
-
     @Override
     public List getHiredCandidatesList() {
         return repository.findAll();
