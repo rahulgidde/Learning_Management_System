@@ -1,7 +1,7 @@
 package com.bridgelabz.lmsapplication.configuration;
 
 import com.bridgelabz.lmsapplication.filter.JwtRequestFilter;
-import com.bridgelabz.lmsapplication.service.UserDetailService;
+import com.bridgelabz.lmsapplication.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Autowired
-    private UserDetailService jwtUserDetailsService;
+    private UserServiceImpl jwtUserDetailsService;
 
     @Autowired
     private JwtRequestFilter jwtRequestFilter;

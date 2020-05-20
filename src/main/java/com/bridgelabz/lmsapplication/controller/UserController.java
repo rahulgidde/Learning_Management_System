@@ -3,17 +3,11 @@ package com.bridgelabz.lmsapplication.controller;
 import com.bridgelabz.lmsapplication.dto.EmailDto;
 import com.bridgelabz.lmsapplication.dto.UserDto;
 import com.bridgelabz.lmsapplication.model.JwtRequest;
-import com.bridgelabz.lmsapplication.model.JwtResponse;
 import com.bridgelabz.lmsapplication.model.UserDetail;
+import com.bridgelabz.lmsapplication.service.IUserService;
 import com.bridgelabz.lmsapplication.util.JwtTokenUtil;
-import com.bridgelabz.lmsapplication.service.UserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,10 +18,7 @@ import javax.mail.MessagingException;
 public class UserController {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private UserDetailService service;
+    private IUserService userService;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -38,26 +29,7 @@ public class UserController {
     //API FOR AUTHENTICATE USER
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-
-        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-
-        final UserDetails userDetails = service
-                .loadUserByUsername(authenticationRequest.getUsername());
-
-        final String token = jwtTokenUtil.generateToken(userDetails);
-
-        return ResponseEntity.ok(new JwtResponse(token));
-    }
-
-    //METHOD FOR CHECK USER AUTHENTICATION
-    private void authenticate(String username, String password) throws Exception {
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        } catch (DisabledException e) {
-            throw new Exception("USER_DISABLED", e);
-        } catch (BadCredentialsException e) {
-            throw new Exception("INVALID_CREDENTIALS", e);
-        }
+        return userService.createAuthenticationToken(authenticationRequest);
     }
 
     //API FOR USER LOGIN
@@ -69,7 +41,7 @@ public class UserController {
     //API FOR REGISTER USER IN LMS APPLICATION
     @RequestMapping(value = "/registerUser", method = RequestMethod.POST)
     public ResponseEntity<?> register(@RequestBody UserDto user) {
-        return ResponseEntity.ok(service.loadUserDetails(user));
+        return ResponseEntity.ok(userService.loadUserDetails(user));
     }
 
     //FORGET PASSWORD API
@@ -77,9 +49,9 @@ public class UserController {
     public String sentMail(@RequestParam(value = "emailId") String emailId) throws MessagingException {
         EmailDto emailDto = new EmailDto();
         emailDto.setEmailId(emailId);
-        UserDetail user = service.findByEmail(emailDto.getEmailId());
+        UserDetail user = userService.findByEmail(emailDto.getEmailId());
         final String token = jwtTokenUtil.generateEmailToken(user.getId());
-        service.sendEmail(emailDto, token);
+        userService.sendEmail(emailDto, token);
         return "Email Send Successfully";
     }
 
@@ -87,7 +59,7 @@ public class UserController {
     @RequestMapping(value = "/resetpassword", method = RequestMethod.PUT)
     public String resetPassword(@RequestParam(value = "password") String password, @RequestParam(value = "token") String token) {
         String id = jwtTokenUtil.getUsernameFromToken(token);
-        service.resetPassword(Long.valueOf(id), passwordEncoder.encode(password));
+        userService.resetPassword(Long.valueOf(id), passwordEncoder.encode(password));
         return "Password Changed Successfully";
     }
 }
