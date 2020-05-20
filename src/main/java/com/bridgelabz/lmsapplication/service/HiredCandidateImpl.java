@@ -42,7 +42,7 @@ public class HiredCandidateImpl implements IHiredCandidateService {
     @Override
     public void loadHiredCandidateSheet() {
         String path = "./src/main/resources/HiredCandidates.xlsx";
-        boolean flag = true;
+        int flag = 0;
         HiredCandidateDto hiredCandidateDto = new HiredCandidateDto();
         try (FileInputStream fis = new FileInputStream(path)) {
             XSSFWorkbook workbook = new XSSFWorkbook(fis);
@@ -52,7 +52,7 @@ public class HiredCandidateImpl implements IHiredCandidateService {
             while (rows.hasNext()) {
                 XSSFRow row = (XSSFRow) rows.next();
                 Iterator cells = row.cellIterator();
-                if (flag == false) {
+                if (flag == 1) {
                     while (cells.hasNext()) {
                         cell = (XSSFCell) cells.next();
                         hiredCandidateDto.setId((long) cell.getNumericCellValue());
@@ -94,7 +94,7 @@ public class HiredCandidateImpl implements IHiredCandidateService {
                         repository.save(hiredCandidate);
                     }
                 }
-                flag = false;
+                flag = 1;
             }
         } catch (IOException e) {
             e.printStackTrace();
