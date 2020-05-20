@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
     public UserDetailModel resetPassword(String token, String password) {
         String id = jwtTokenUtil.getUsernameFromToken(token);
         UserDetailModel user = repository.findById(Long.valueOf(id)).get();
-        user.setPassword(password);
+        user.setPassword(passwordEncoder.encode(password));
         return repository.save(user);
     }
 
