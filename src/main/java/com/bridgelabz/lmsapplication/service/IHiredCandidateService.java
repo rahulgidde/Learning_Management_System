@@ -4,7 +4,7 @@ import com.bridgelabz.lmsapplication.model.HiredCandidateModel;
 
 import java.util.List;
 
-public interface HiredCandidateService {
+public interface IHiredCandidateService {
     void loadHiredCandidateSheet();
 
     List getHiredCandidatesList();
