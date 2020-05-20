@@ -73,7 +73,9 @@ public class UserController {
 
     //FORGET PASSWORD API
     @RequestMapping(value = "/send", method = RequestMethod.POST)
-    public String sentMail(@RequestBody EmailDto emailDto) throws MessagingException {
+    public String sentMail(@RequestParam(value = "emailId") String emailId) throws MessagingException {
+        EmailDto emailDto = new EmailDto();
+        emailDto.setEmailId(emailId);
         UserDetail user = service.findByEmail(emailDto.getEmailId());
         final String token = jwtTokenUtil.generateEmailToken(user.getId());
         service.sendEmail(emailDto, token);
