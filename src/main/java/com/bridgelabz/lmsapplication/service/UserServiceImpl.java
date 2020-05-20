@@ -47,7 +47,6 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-
     //METHOD FOR FIND RECORD FORM REPOSITORY BY USERNAME
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
