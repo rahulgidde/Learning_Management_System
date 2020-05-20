@@ -22,16 +22,16 @@ import java.util.ArrayList;
 public class UserDetailService implements UserDetailsService {
 
     @Autowired
-    UserRepository repository;
+    private UserRepository repository;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    ModelMapper mapper;
+    private ModelMapper mapper;
 
     @Autowired
-    JavaMailSender javaMailSender;
+    private JavaMailSender javaMailSender;
 
     //METHOD FOR FIND RECORD FORM REPOSITORY BY USERNAME
     @Override
@@ -65,7 +65,7 @@ public class UserDetailService implements UserDetailsService {
         return repository.save(user);
     }
 
-    //METHOD  FOR SEND EMAIL
+    //METHOD FOR SEND EMAIL
     public void sendEmail(EmailDto emailDto, String token) throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper;

@@ -26,13 +26,13 @@ public class UserController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    UserDetailService service;
+    private UserDetailService service;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     //API FOR AUTHENTICATE USER
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
