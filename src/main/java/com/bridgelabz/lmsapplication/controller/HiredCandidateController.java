@@ -15,13 +15,13 @@ public class HiredCandidateController {
     HiredCandidateImpl service;
 
     @PostMapping("/loadHiredCandidates")
-    public String read() throws IOException {
+    public String loadHiredCandidates() throws IOException {
         service.loadHiredCandidateSheet();
         return "Loaded Hired Candidate Successfully";
     }
 
     @GetMapping("/hiredCandidateList")
-    public List getHiredCandidate() {
+    public List getHiredCandidateList() {
         return service.getHiredCandidatesList();
     }
 
