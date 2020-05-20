@@ -21,10 +21,10 @@ import java.util.List;
 public class HiredCandidateImpl implements HiredCandidateService {
 
     @Autowired
-    CandidateRepository repository;
+    private CandidateRepository repository;
 
     @Autowired
-    ModelMapper mapper;
+    private ModelMapper mapper;
 
     @Override
     public List getHiredCandidatesList() {

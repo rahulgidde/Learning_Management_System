@@ -12,7 +12,7 @@ import java.util.List;
 @RequestMapping("/hireCandidate")
 public class HiredCandidateController {
     @Autowired
-    HiredCandidateImpl service;
+    private HiredCandidateImpl service;
 
     @PostMapping("/loadHiredCandidates")
     public String loadHiredCandidates() throws IOException {
