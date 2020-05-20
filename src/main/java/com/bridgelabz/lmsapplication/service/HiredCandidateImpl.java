@@ -43,7 +43,6 @@ public class HiredCandidateImpl implements HiredCandidateService {
     public void loadHiredCandidateSheet() {
         String path = "./src/main/resources/HiredCandidates.xlsx";
         boolean flag = true;
-        List sheetData = new ArrayList();
         HiredCandidateDto hiredCandidateDto = new HiredCandidateDto();
         try (FileInputStream fis = new FileInputStream(path)) {
             XSSFWorkbook workbook = new XSSFWorkbook(fis);
