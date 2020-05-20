@@ -34,7 +34,7 @@ public class HiredCandidateImpl implements IHiredCandidateService {
     //METHOD FOR GET HIRED CANDIDATE  PROFILE
     @Override
     public HiredCandidateModel getHiredCandidatesProfile(String candidateName) {
-        return repository.findByFirst_name(candidateName);
+        return repository.findByFirstName(candidateName);
     }
 
     //METHOD FOR LOAD HIRED CANDIDATE EXCEL SHEET
