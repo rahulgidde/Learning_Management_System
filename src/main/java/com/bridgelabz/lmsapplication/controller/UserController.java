@@ -73,7 +73,7 @@ public class UserController {
     }
 
     //FORGET PASSWORD API
-    @RequestMapping(value = "/sendEmail", method = RequestMethod.POST)
+    @RequestMapping(value = "/sendemail", method = RequestMethod.POST)
     public String sentMail(@RequestParam(value = "emailId") String emailId) throws MessagingException {
         EmailDto emailDto = new EmailDto();
         emailDto.setEmailId(emailId);
@@ -84,7 +84,7 @@ public class UserController {
     }
 
     //RESET PASSWORD API
-    @RequestMapping(value = "/resetPassword", method = RequestMethod.PUT)
+    @RequestMapping(value = "/resetpassword", method = RequestMethod.PUT)
     public String resetPassword(@RequestParam(value = "password") String password, @RequestParam(value = "token") String token) {
         String id = jwtTokenUtil.getUsernameFromToken(token);
         service.resetPassword(Long.valueOf(id), passwordEncoder.encode(password));

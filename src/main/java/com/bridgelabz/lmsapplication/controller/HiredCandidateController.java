@@ -9,27 +9,27 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/hireCandidate")
+@RequestMapping("/hirecandidate")
 public class HiredCandidateController {
 
     @Autowired
     private IHiredCandidateService service;
 
     //API FOR LOAD HIDER CANDIDATE LIST
-    @PostMapping("/loadHiredCandidates")
+    @PostMapping("/loadhiredcandidates")
     public String loadHiredCandidates() throws IOException {
         service.loadHiredCandidateSheet();
         return "Loaded Hired Candidate Successfully";
     }
 
     //API FOR GET HIDER CANDIDATE LIST
-    @GetMapping("/hiredCandidateList")
+    @GetMapping("/hiredcandidatelist")
     public List getHiredCandidateList() {
         return service.getHiredCandidatesList();
     }
 
     //API FOR GET HIRED CANDIDATE PROFILE
-    @GetMapping("/hiredCandidateProfile")
+    @GetMapping("/hiredcandidateprofile")
     public HiredCandidateModel getCandidateProfile(@RequestParam("candidateName") String candidateName) {
         return service.getHiredCandidatesProfile(candidateName);
     }
