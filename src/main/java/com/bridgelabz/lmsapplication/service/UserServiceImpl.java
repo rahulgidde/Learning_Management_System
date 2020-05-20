@@ -85,7 +85,11 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
 
     //METHOD FOR SEND EMAIL
     @Override
-    public void sendEmail(EmailDto emailDto, String token) throws MessagingException {
+    public void sendEmail(String emailId) throws MessagingException {
+        EmailDto emailDto = new EmailDto();
+        emailDto.setEmailId(emailId);
+        UserDetailModel user = findByEmail(emailDto.getEmailId());
+        final String token = jwtTokenUtil.generateEmailToken(user.getId());
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper;
         helper = new MimeMessageHelper(message, true);
