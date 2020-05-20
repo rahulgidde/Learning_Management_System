@@ -61,19 +61,19 @@ public class UserController {
     }
 
     //API FOR USER LOGIN
-    @RequestMapping({"/login"})
+    @RequestMapping("/login")
     public String login() {
         return "Login Successfully";
     }
 
     //API FOR REGISTER USER IN LMS APPLICATION
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @RequestMapping(value = "/registerUser", method = RequestMethod.POST)
     public ResponseEntity<?> register(@RequestBody UserDto user) {
         return ResponseEntity.ok(service.loadUserDetails(user));
     }
 
     //FORGET PASSWORD API
-    @RequestMapping(value = "/send", method = RequestMethod.POST)
+    @RequestMapping(value = "/sendEmail", method = RequestMethod.POST)
     public String sentMail(@RequestParam(value = "emailId") String emailId) throws MessagingException {
         EmailDto emailDto = new EmailDto();
         emailDto.setEmailId(emailId);
@@ -84,7 +84,7 @@ public class UserController {
     }
 
     //RESET PASSWORD API
-    @RequestMapping(value = "/reset", method = RequestMethod.PUT)
+    @RequestMapping(value = "/resetPassword", method = RequestMethod.PUT)
     public String resetPassword(@RequestParam(value = "password") String password, @RequestParam(value = "token") String token) {
         String id = jwtTokenUtil.getUsernameFromToken(token);
         service.resetPassword(Long.valueOf(id), passwordEncoder.encode(password));
