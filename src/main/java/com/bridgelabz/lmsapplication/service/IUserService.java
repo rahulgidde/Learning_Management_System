@@ -19,5 +19,5 @@ public interface IUserService {
 
     public UserDetailModel resetPassword(Long id, String password);
 
-    public void sendEmail(EmailDto emailDto, String token) throws MessagingException;
+    public void sendEmail(String emailId) throws MessagingException;
 }
