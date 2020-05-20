@@ -40,11 +40,10 @@ public class HiredCandidateImpl implements IHiredCandidateService {
 
     //METHOD FOR LOAD HIRED CANDIDATE EXCEL SHEET
     @Override
-    public void loadHiredCandidateSheet() {
-        String path = "./src/main/resources/HiredCandidates.xlsx";
+    public void loadHiredCandidateSheet(String filePath) {
         int flag = 0;
         HiredCandidateDto hiredCandidateDto = new HiredCandidateDto();
-        try (FileInputStream fis = new FileInputStream(path)) {
+        try (FileInputStream fis = new FileInputStream(filePath)) {
             XSSFWorkbook workbook = new XSSFWorkbook(fis);
             XSSFSheet sheet = workbook.getSheetAt(0);
             Iterator rows = sheet.rowIterator();

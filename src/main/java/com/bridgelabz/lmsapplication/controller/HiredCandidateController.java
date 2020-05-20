@@ -18,8 +18,8 @@ public class HiredCandidateController {
 
     //API FOR LOAD HIDER CANDIDATE LIST
     @PostMapping("/loadhiredcandidates")
-    public String loadHiredCandidates() throws IOException {
-        service.loadHiredCandidateSheet();
+    public String loadHiredCandidates(@RequestParam(value = "filePath") String filePath) throws IOException {
+        service.loadHiredCandidateSheet(filePath);
         return "Loaded Hired Candidate Successfully";
     }
 
