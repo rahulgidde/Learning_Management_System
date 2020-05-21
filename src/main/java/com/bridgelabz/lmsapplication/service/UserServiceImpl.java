@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserDetailsService, IUserService {
@@ -75,11 +76,14 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
 
     //METHOD FOR REST PASSWORD
     @Override
-    public UserDetailModel resetPassword(String token, String password) {
+    public Optional<UserDetailModel> resetPassword(String token, String password) {
         String id = jwtTokenUtil.getUsernameFromToken(token);
-        UserDetailModel user = repository.findById(Long.valueOf(id)).get();
-        user.setPassword(passwordEncoder.encode(password));
-        return repository.save(user);
+        return repository.findById(Long.valueOf(id))
+                .map(userDetailModel -> {
+                    userDetailModel.setPassword(passwordEncoder.encode(password));
+                    return userDetailModel;
+                })
+                .map(repository::save);
     }
 
     //METHOD FOR SEND EMAIL

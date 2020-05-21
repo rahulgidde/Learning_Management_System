@@ -6,6 +6,7 @@ import com.bridgelabz.lmsapplication.model.UserDetailModel;
 import org.springframework.http.ResponseEntity;
 
 import javax.mail.MessagingException;
+import java.util.Optional;
 
 public interface IUserService {
     public ResponseEntity<?> createAuthenticationToken(JwtRequest authenticationRequest) throws Exception;
@@ -16,7 +17,7 @@ public interface IUserService {
 
     public UserDetailModel findByEmail(String email);
 
-    public UserDetailModel resetPassword(String token, String password);
+    public Optional<UserDetailModel> resetPassword(String token, String password);
 
     public void sendEmail(String emailId) throws MessagingException;
 }
