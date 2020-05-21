@@ -70,8 +70,7 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
     //METHOD FOR FIND RECORD FORM REPOSITORY BY EMAIL
     @Override
     public UserDetailModel findByEmail(String email) {
-        UserDetailModel userDetail = repository.findByEmail(email);
-        return userDetail;
+        return repository.findByEmail(email);
     }
 
     //METHOD FOR REST PASSWORD
