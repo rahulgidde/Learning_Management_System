@@ -3,129 +3,111 @@ package com.bridgelabz.lmsapplication.dto;
 import java.util.Date;
 
 public class HiredCandidateDto {
-
     private Long id;
-
-    private String first_name;
-
-    private String middle_name;
-
-    private String last_name;
-
-    private String email_id;
-
-    private String hired_city;
-
-    private String degree;
-
-    private Date hired_date;
-
-    private long mobile_number;
-
-    private long permanent_pincode;
-
-    private String hired_lab;
-
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private String emailId;
+    private String hiredCity;
+    private String Degree;
+    private Date hiredDate;
+    private long mobileNumber;
+    private long permanentPincode;
+    private String hiredLab;
     private String attitude;
-
-    private String communication_remark;
-
-    private String knowledge_remark;
-
-    private String aggregate_remark;
-
+    private String communicationRemark;
+    private String knowledgeRemark;
+    private String aggregateRemark;
     private String status;
-
-    private Date creator_stamp;
-
-    private String creator_user;
+    private Date creatorStamp;
+    private String creatorUser;
 
     public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getMiddle_name() {
-        return middle_name;
+    public String getMiddleName() {
+        return middleName;
     }
 
-    public void setMiddle_name(String middle_name) {
-        this.middle_name = middle_name;
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getEmail_id() {
-        return email_id;
+    public String getEmailId() {
+        return emailId;
     }
 
-    public void setEmail_id(String email_id) {
-        this.email_id = email_id;
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
     }
 
-    public String getHired_city() {
-        return hired_city;
+    public String getHiredCity() {
+        return hiredCity;
     }
 
-    public void setHired_city(String hired_city) {
-        this.hired_city = hired_city;
+    public void setHiredCity(String hiredCity) {
+        this.hiredCity = hiredCity;
     }
 
     public String getDegree() {
-        return degree;
+        return Degree;
     }
 
     public void setDegree(String degree) {
-        this.degree = degree;
+        Degree = degree;
     }
 
-    public Date getHired_date() {
-        return hired_date;
+    public Date getHiredDate() {
+        return hiredDate;
     }
 
-    public void setHired_date(Date hired_date) {
-        this.hired_date = hired_date;
+    public void setHiredDate(Date hiredDate) {
+        this.hiredDate = hiredDate;
     }
 
-    public long getMobile_number() {
-        return mobile_number;
+    public long getMobileNumber() {
+        return mobileNumber;
     }
 
-    public void setMobile_number(long mobile_number) {
-        this.mobile_number = mobile_number;
+    public void setMobileNumber(long mobileNumber) {
+        this.mobileNumber = mobileNumber;
     }
 
-    public long getPermanent_pincode() {
-        return permanent_pincode;
+    public long getPermanentPincode() {
+        return permanentPincode;
     }
 
-    public void setPermanent_pincode(long permanent_pincode) {
-        this.permanent_pincode = permanent_pincode;
+    public void setPermanentPincode(long permanentPincode) {
+        this.permanentPincode = permanentPincode;
     }
 
-    public String getHired_lab() {
-        return hired_lab;
+    public String getHiredLab() {
+        return hiredLab;
     }
 
-    public void setHired_lab(String hired_lab) {
-        this.hired_lab = hired_lab;
+    public void setHiredLab(String hiredLab) {
+        this.hiredLab = hiredLab;
     }
 
     public String getAttitude() {
@@ -136,28 +118,28 @@ public class HiredCandidateDto {
         this.attitude = attitude;
     }
 
-    public String getCommunication_remark() {
-        return communication_remark;
+    public String getCommunicationRemark() {
+        return communicationRemark;
     }
 
-    public void setCommunication_remark(String communication_remark) {
-        this.communication_remark = communication_remark;
+    public void setCommunicationRemark(String communicationRemark) {
+        this.communicationRemark = communicationRemark;
     }
 
-    public String getKnowledge_remark() {
-        return knowledge_remark;
+    public String getKnowledgeRemark() {
+        return knowledgeRemark;
     }
 
-    public void setKnowledge_remark(String knowledge_remark) {
-        this.knowledge_remark = knowledge_remark;
+    public void setKnowledgeRemark(String knowledgeRemark) {
+        this.knowledgeRemark = knowledgeRemark;
     }
 
-    public String getAggregate_remark() {
-        return aggregate_remark;
+    public String getAggregateRemark() {
+        return aggregateRemark;
     }
 
-    public void setAggregate_remark(String aggregate_remark) {
-        this.aggregate_remark = aggregate_remark;
+    public void setAggregateRemark(String aggregateRemark) {
+        this.aggregateRemark = aggregateRemark;
     }
 
     public String getStatus() {
@@ -168,19 +150,19 @@ public class HiredCandidateDto {
         this.status = status;
     }
 
-    public Date getCreator_stamp() {
-        return creator_stamp;
+    public Date getCreatorStamp() {
+        return creatorStamp;
     }
 
-    public void setCreator_stamp(Date creator_stamp) {
-        this.creator_stamp = creator_stamp;
+    public void setCreatorStamp(Date creatorStamp) {
+        this.creatorStamp = creatorStamp;
     }
 
-    public String getCreator_user() {
-        return creator_user;
+    public String getCreatorUser() {
+        return creatorUser;
     }
 
-    public void setCreator_user(String creator_user) {
-        this.creator_user = creator_user;
+    public void setCreatorUser(String creatorUser) {
+        this.creatorUser = creatorUser;
     }
 }
