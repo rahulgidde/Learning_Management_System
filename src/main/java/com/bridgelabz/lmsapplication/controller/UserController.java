@@ -23,7 +23,7 @@ public class UserController {
     }
 
     //API FOR USER LOGIN
-    @RequestMapping("/login")
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login() {
         return "Login Successfully";
     }

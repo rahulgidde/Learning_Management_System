@@ -17,20 +17,20 @@ public class HiredCandidateController {
     private IHiredCandidateService service;
 
     //API FOR LOAD HIDER CANDIDATE LIST
-    @PostMapping("/loadhiredcandidates")
+    @RequestMapping(value = "/loadhiredcandidates", method = RequestMethod.POST)
     public String loadHiredCandidates(@RequestParam(value = "filePath") String filePath) throws IOException {
         service.loadHiredCandidateSheet(filePath);
         return "Loaded Hired Candidate Successfully";
     }
 
     //API FOR GET HIDER CANDIDATE LIST
-    @GetMapping("/hiredcandidatelist")
+    @RequestMapping(value = "/hiredcandidatelist", method = RequestMethod.GET)
     public List getHiredCandidateList() {
         return service.getHiredCandidatesList();
     }
 
     //API FOR GET HIRED CANDIDATE PROFILE
-    @GetMapping("/hiredcandidateprofile")
+    @RequestMapping(value = "/hiredcandidateprofile", method = RequestMethod.GET)
     public Optional<HiredCandidateModel> getCandidateProfile(@RequestParam("candidateName") Long candidateId) {
         return service.getHiredCandidatesProfile(candidateId);
     }
