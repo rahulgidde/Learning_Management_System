@@ -6,12 +6,12 @@ public class UserDto {
     Long id;
     String username;
     String password;
-    String firstname;
-    String lastname;
+    String firstName;
+    String lastName;
     String email;
-    Integer contact_Number;
-    Date creator_Stamp;
-    String creator_User;
+    Integer contactNumber;
+    Date creatorStamp;
+    String creatorUser;
 
     public Long getId() {
         return id;
@@ -37,20 +37,20 @@ public class UserDto {
         this.password = password;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -61,27 +61,27 @@ public class UserDto {
         this.email = email;
     }
 
-    public Integer getContact_Number() {
-        return contact_Number;
+    public Integer getContactNumber() {
+        return contactNumber;
     }
 
-    public void setContact_Number(Integer contact_Number) {
-        this.contact_Number = contact_Number;
+    public void setContactNumber(Integer contactNumber) {
+        this.contactNumber = contactNumber;
     }
 
-    public Date getCreator_Stamp() {
-        return creator_Stamp;
+    public Date getCreatorStamp() {
+        return creatorStamp;
     }
 
-    public void setCreator_Stamp(Date creator_Stamp) {
-        this.creator_Stamp = creator_Stamp;
+    public void setCreatorStamp(Date creatorStamp) {
+        this.creatorStamp = creatorStamp;
     }
 
-    public String getCreator_User() {
-        return creator_User;
+    public String getCreatorUser() {
+        return creatorUser;
     }
 
-    public void setCreator_User(String creator_User) {
-        this.creator_User = creator_User;
+    public void setCreatorUser(String creatorUser) {
+        this.creatorUser = creatorUser;
     }
 }

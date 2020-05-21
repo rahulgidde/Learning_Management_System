@@ -16,10 +16,10 @@ public class UserDetailModel {
     Long id;
     String username;
     String password;
-    String firstname;
-    String lastname;
+    String firstName;
+    String lastName;
     String email;
-    Integer contact_Number;
-    Date creator_Stamp;
-    String creator_User;
+    Integer contactNumber;
+    Date creatorStamp;
+    String creatorUser;
 }
