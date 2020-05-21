@@ -1,11 +1,13 @@
 package com.bridgelabz.lmsapplication.model;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
 @Entity(name = "hired_Candidate")
 @Table
 public class HiredCandidateModel {
