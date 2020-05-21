@@ -16,14 +16,14 @@ public class HiredCandidateController {
     @Autowired
     private IHiredCandidateService service;
 
-    //API FOR LOAD HIDER CANDIDATE LIST
+    //API FOR LOAD HIRED CANDIDATE LIST
     @RequestMapping(value = "/loadhiredcandidates", method = RequestMethod.POST)
     public String loadHiredCandidates(@RequestParam(value = "filePath") String filePath) throws IOException {
         service.loadHiredCandidateSheet(filePath);
         return "Loaded Hired Candidate Successfully";
     }
 
-    //API FOR GET HIDER CANDIDATE LIST
+    //API FOR GET HIRED CANDIDATE LIST
     @RequestMapping(value = "/hiredcandidatelist", method = RequestMethod.GET)
     public List getHiredCandidateList() {
         return service.getHiredCandidatesList();
