@@ -29,7 +29,7 @@ public class UserController {
     }
 
     //API FOR REGISTER USER IN LMS APPLICATION
-    @RequestMapping(value = "/registerUser", method = RequestMethod.POST)
+    @RequestMapping(value = "/registeruser", method = RequestMethod.POST)
     public ResponseEntity<?> register(@RequestBody UserDto user) {
         return ResponseEntity.ok(userService.loadUserDetails(user));
     }
