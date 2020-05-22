@@ -3,13 +3,11 @@ package com.bridgelabz.lmsapplication.service;
 import com.bridgelabz.lmsapplication.dto.EmailDto;
 import com.bridgelabz.lmsapplication.dto.UserDto;
 import com.bridgelabz.lmsapplication.model.JwtRequest;
-import com.bridgelabz.lmsapplication.model.JwtResponse;
 import com.bridgelabz.lmsapplication.model.UserDetailModel;
 import com.bridgelabz.lmsapplication.repository.UserRepository;
 import com.bridgelabz.lmsapplication.util.JwtTokenUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -50,7 +48,7 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
 
     //METHOD FOR FIND RECORD FORM REPOSITORY BY USERNAME
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
         UserDetailModel user = repository.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
@@ -104,7 +102,7 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
 
     //METHOD FOR USER AUTHENTICATION
     @Override
-    public ResponseEntity<?> createAuthenticationToken(JwtRequest authenticationRequest) throws Exception {
+    public String createAuthenticationToken(JwtRequest authenticationRequest) throws Exception {
 
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
@@ -112,7 +110,7 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
 
         final String token = jwtTokenUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(new JwtResponse(token));
+        return token;
     }
 
     //METHOD FOR CHECK USER AUTHENTICATION
