@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/hirecandidate")
@@ -22,18 +21,18 @@ public class HiredCandidateController {
     @RequestMapping(value = "/loadhiredcandidates", method = RequestMethod.POST)
     public ResponseEntity<String> loadHiredCandidates(@RequestParam(value = "filePath") String filePath) throws IOException {
         service.loadHiredCandidateSheet(filePath);
-        return new ResponseEntity<>("Loaded Hired Candidate Successfully",HttpStatus.OK);
+        return new ResponseEntity<>("Loaded Hired Candidate Successfully", HttpStatus.OK);
     }
 
     //API FOR GET HIRED CANDIDATE LIST
     @RequestMapping(value = "/hiredcandidatelist", method = RequestMethod.GET)
     public ResponseEntity<List> getHiredCandidateList() {
-        return new ResponseEntity<>(service.getHiredCandidatesList(),HttpStatus.OK);
+        return new ResponseEntity<>(service.getHiredCandidatesList(), HttpStatus.OK);
     }
 
     //API FOR GET HIRED CANDIDATE PROFILE
     @RequestMapping(value = "/hiredcandidateprofile", method = RequestMethod.GET)
-    public ResponseEntity<Optional<HiredCandidateModel>> getCandidateProfile(@RequestParam("candidateId") Long candidateId) {
-        return new ResponseEntity<>(service.getHiredCandidatesProfile(candidateId),HttpStatus.FOUND);
+    public ResponseEntity<HiredCandidateModel> getCandidateProfile(@RequestParam("candidateId") Long candidateId) {
+        return new ResponseEntity<>(service.getHiredCandidatesProfile(candidateId), HttpStatus.FOUND);
     }
 }
