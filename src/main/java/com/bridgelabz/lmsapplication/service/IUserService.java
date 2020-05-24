@@ -5,7 +5,6 @@ import com.bridgelabz.lmsapplication.model.JwtRequest;
 import com.bridgelabz.lmsapplication.model.UserDetailModel;
 
 import javax.mail.MessagingException;
-import java.util.Optional;
 
 public interface IUserService {
     public String createAuthenticationToken(JwtRequest authenticationRequest) throws Exception;
@@ -14,9 +13,7 @@ public interface IUserService {
 
     public UserDetailModel loadUserDetails(UserDto userDto);
 
-    public UserDetailModel findByEmail(String email);
-
-    public Optional<UserDetailModel> resetPassword(String token, String password);
+    public UserDetailModel resetPassword(String token, String password);
 
     public void sendEmail(String emailId) throws MessagingException;
 }

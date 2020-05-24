@@ -2,6 +2,7 @@ package com.bridgelabz.lmsapplication.service;
 
 import com.bridgelabz.lmsapplication.dto.EmailDto;
 import com.bridgelabz.lmsapplication.dto.UserDto;
+import com.bridgelabz.lmsapplication.exception.UserException;
 import com.bridgelabz.lmsapplication.model.JwtRequest;
 import com.bridgelabz.lmsapplication.model.UserDetailModel;
 import com.bridgelabz.lmsapplication.repository.UserRepository;
@@ -16,14 +17,12 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.ArrayList;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserDetailsService, IUserService {
@@ -49,10 +48,8 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
     //METHOD FOR FIND RECORD FORM REPOSITORY BY USERNAME
     @Override
     public UserDetails loadUserByUsername(String username) {
-        UserDetailModel user = repository.findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found with username: " + username);
-        }
+        UserDetailModel user = repository.findByUsername(username)
+                .orElseThrow(() -> new UserException(UserException.exceptionType.User_Not_FOUND, "User Not Found"));
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
                 new ArrayList<>());
     }
@@ -66,22 +63,17 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
         return user;
     }
 
-    //METHOD FOR FIND RECORD FORM REPOSITORY BY EMAIL
-    @Override
-    public UserDetailModel findByEmail(String email) {
-        return repository.findByEmail(email);
-    }
-
     //METHOD FOR REST PASSWORD
     @Override
-    public Optional<UserDetailModel> resetPassword(String token, String password) {
+    public UserDetailModel resetPassword(String token, String password) {
         String id = jwtTokenUtil.getUsernameFromToken(token);
         return repository.findById(Long.valueOf(id))
                 .map(userDetailModel -> {
                     userDetailModel.setPassword(passwordEncoder.encode(password));
                     return userDetailModel;
                 })
-                .map(repository::save);
+                .map(repository::save)
+                .orElseThrow(() -> new UserException(UserException.exceptionType.User_Not_FOUND, "User Not Found"));
     }
 
     //METHOD FOR SEND EMAIL
@@ -89,13 +81,14 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
     public void sendEmail(String emailId) throws MessagingException {
         EmailDto emailDto = new EmailDto();
         emailDto.setEmailId(emailId);
-        UserDetailModel user = findByEmail(emailDto.getEmailId());
+        UserDetailModel user = repository.findByEmail(emailId)
+                .orElseThrow(() -> new UserException(UserException.exceptionType.INVALID_EMAIL_ID, "EmailId Not Found"));
         final String token = jwtTokenUtil.generateEmailToken(user.getId());
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper;
         helper = new MimeMessageHelper(message, true);
         helper.setSubject(emailDto.getSubject());
-        helper.setTo(emailDto.getEmailId());
+        helper.setTo(emailId);
         helper.setText(token, true);
         javaMailSender.send(message);
     }
@@ -103,13 +96,9 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
     //METHOD FOR USER AUTHENTICATION
     @Override
     public String createAuthenticationToken(JwtRequest authenticationRequest) throws Exception {
-
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-
         final UserDetails userDetails = loadUserByUsername(authenticationRequest.getUsername());
-
         final String token = jwtTokenUtil.generateToken(userDetails);
-
         return token;
     }
 

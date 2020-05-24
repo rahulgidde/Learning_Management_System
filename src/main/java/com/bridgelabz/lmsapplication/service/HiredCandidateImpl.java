@@ -1,6 +1,7 @@
 package com.bridgelabz.lmsapplication.service;
 
 import com.bridgelabz.lmsapplication.dto.HiredCandidateDto;
+import com.bridgelabz.lmsapplication.exception.UserException;
 import com.bridgelabz.lmsapplication.model.HiredCandidateModel;
 import com.bridgelabz.lmsapplication.repository.CandidateRepository;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -15,7 +16,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class HiredCandidateImpl implements IHiredCandidateService {
@@ -34,8 +34,9 @@ public class HiredCandidateImpl implements IHiredCandidateService {
 
     //METHOD FOR GET HIRED CANDIDATE  PROFILE
     @Override
-    public Optional<HiredCandidateModel> getHiredCandidatesProfile(Long candidateId) {
-        return repository.findById(candidateId);
+    public HiredCandidateModel getHiredCandidatesProfile(Long candidateId) {
+        return repository.findById(candidateId)
+                .orElseThrow(() -> new UserException(UserException.exceptionType.User_Not_FOUND, "Candidate Not Found"));
     }
 
     //METHOD FOR LOAD HIRED CANDIDATE EXCEL SHEET
