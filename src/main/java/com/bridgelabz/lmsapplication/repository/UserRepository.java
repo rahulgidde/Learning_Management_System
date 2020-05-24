@@ -4,9 +4,11 @@ import com.bridgelabz.lmsapplication.model.UserDetailModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends JpaRepository<UserDetailModel, Long> {
-    UserDetailModel findByUsername(String username);
+    Optional<UserDetailModel> findByUsername(String username);
 
-    UserDetailModel findByEmail(String email);
+    Optional<UserDetailModel> findByEmail(String email);
 }
