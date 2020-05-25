@@ -1,5 +1,6 @@
 package com.bridgelabz.lmsapplication.service;
 
+import com.bridgelabz.lmsapplication.dto.EmailDto;
 import com.bridgelabz.lmsapplication.dto.HiredCandidateDto;
 import com.bridgelabz.lmsapplication.exception.UserException;
 import com.bridgelabz.lmsapplication.model.HiredCandidateModel;
@@ -10,8 +11,12 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Iterator;
@@ -26,6 +31,10 @@ public class HiredCandidateImpl implements IHiredCandidateService {
     @Autowired
     private ModelMapper mapper;
 
+    @Autowired
+    private JavaMailSender javaMailSender;
+
+
     //METHOD FOR GET HIRED CANDIDATE LIST
     @Override
     public List getHiredCandidatesList() {
@@ -36,6 +45,33 @@ public class HiredCandidateImpl implements IHiredCandidateService {
     @Override
     public HiredCandidateModel getHiredCandidatesProfile(Long candidateId) {
         return repository.findById(candidateId)
+                .orElseThrow(() -> new UserException(UserException.exceptionType.User_Not_FOUND, "Candidate Not Found"));
+    }
+
+    //METHOD FOR SEND STATUS EMAIL
+    @Override
+    public void sendEmail(EmailDto emailDto) throws MessagingException {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper;
+        helper = new MimeMessageHelper(message, true);
+        helper.setSubject(emailDto.getSubject());
+        helper.setTo(emailDto.getEmailId());
+        helper.setText("Hii Rahul " +
+                "You are selected for BridgeLabz fellowship program, if You want to join click on below link (ACCEPT)" +
+                " http://localhost:8082/hirecandidate/updatecandidatestatus?id=1&status=Accept " +
+                "otherwise (REJECT)" +
+                "http://localhost:8082/hirecandidate/updatecandidatestatus?id=1&status=Reject", true);
+        javaMailSender.send(message);
+    }
+
+    //METHOD FOR UPDATE CANDIDATE STATUS
+    @Override
+    public HiredCandidateModel updateStatus(Long id, String status) {
+        return repository.findById(id)
+                .map(hiredCandidateModel -> {
+                    hiredCandidateModel.setStatus(status);
+                    return hiredCandidateModel;
+                }).map(repository::save)
                 .orElseThrow(() -> new UserException(UserException.exceptionType.User_Not_FOUND, "Candidate Not Found"));
     }
 

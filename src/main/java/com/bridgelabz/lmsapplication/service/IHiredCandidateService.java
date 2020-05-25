@@ -1,7 +1,9 @@
 package com.bridgelabz.lmsapplication.service;
 
+import com.bridgelabz.lmsapplication.dto.EmailDto;
 import com.bridgelabz.lmsapplication.model.HiredCandidateModel;
 
+import javax.mail.MessagingException;
 import java.util.List;
 
 public interface IHiredCandidateService {
@@ -10,4 +12,8 @@ public interface IHiredCandidateService {
     List getHiredCandidatesList();
 
     HiredCandidateModel getHiredCandidatesProfile(Long candidateId);
+
+    void sendEmail(EmailDto emailDto) throws MessagingException;
+
+    HiredCandidateModel updateStatus(Long id, String status);
 }
