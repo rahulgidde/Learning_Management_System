@@ -53,7 +53,7 @@ public class BeanConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/user/authenticate", "/user/registeruser", "/user/sendemail",
                 "/user/resetpassword", "/hirecandidate/loadhiredcandidates", "/hirecandidate/hiredcandidatelist",
                 "/hirecandidate/hiredcandidateprofile", "/hirecandidate/updatecandidatestatus", "/hirecandidate/sendemail",
-                "/fellowship/fellowshipcandidatesdata", "/fellowship/fellowshipcandidatecount").permitAll().
+                "/fellowship/fellowshipcandidatesdata", "/fellowship/fellowshipcandidatecount","/fellowship/sendjoboffer").permitAll().
                 anyRequest().authenticated().and().
                 exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
