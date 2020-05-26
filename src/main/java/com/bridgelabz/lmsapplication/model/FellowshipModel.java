@@ -14,15 +14,24 @@ import java.util.Date;
 @Table
 public class FellowshipModel {
     @Id
-    Long id;
-    String username;
-    String password;
-    String firstName;
-    String lastName;
-    String email;
-    Integer contactNumber;
-    Date creatorStamp;
-    String creatorUser;
+    private Long id;
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private String emailId;
+    private String hiredCity;
+    private String Degree;
+    private Date hiredDate;
+    private long mobileNumber;
+    private long permanentPincode;
+    private String hiredLab;
+    private String attitude;
+    private String communicationRemark;
+    private String knowledgeRemark;
+    private String aggregateRemark;
+    private String status;
+    private Date creatorStamp;
+    private String creatorUser;
     Date birthDate;
     String verifyBirthDate;
     String parentName;
