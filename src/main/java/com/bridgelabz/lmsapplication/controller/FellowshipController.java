@@ -27,4 +27,11 @@ public class FellowshipController {
     public ResponseEntity<Integer> getFellowshipCandidateCount() {
         return new ResponseEntity<>(fellowshipService.FellowshipCandidateCount(), HttpStatus.OK);
     }
+
+    //API FOR SEND JOB OFFER MAIL
+    @RequestMapping(value = "/sendjoboffer", method = RequestMethod.POST)
+    public ResponseEntity<String> getJobOfferMail() {
+        fellowshipService.jobOfferMail();
+        return new ResponseEntity<>("Mail Send Successfully", HttpStatus.OK);
+    }
 }

@@ -5,10 +5,15 @@ import com.bridgelabz.lmsapplication.repository.CandidateRepository;
 import com.bridgelabz.lmsapplication.repository.FellowshipRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Optional;
 
 @Service
 public class FellowshipServiceImpl implements IFellowshipService {
@@ -20,6 +25,9 @@ public class FellowshipServiceImpl implements IFellowshipService {
 
     @Autowired
     ModelMapper mapper;
+
+    @Autowired
+    JavaMailSender javaMailSender;
 
     //METHOD FOR COPY HIRED CANDIDATE TABLE DATA TO FELLOWSHIP CANDIDATE TABLE
     @Override
@@ -38,5 +46,29 @@ public class FellowshipServiceImpl implements IFellowshipService {
     public int FellowshipCandidateCount() {
         List list = fellowshipRepository.findAll();
         return list.size();
+    }
+
+    //METHOD FOR SEND JOB OFFER MAIL
+    @Override
+    public void jobOfferMail() {
+        List list = fellowshipRepository.findAll();
+        ListIterator listIterator = list.listIterator();
+        while (listIterator.hasNext()) {
+            Optional<FellowshipModel> fellowshipModel = Optional.ofNullable((FellowshipModel) listIterator.next())
+                    .map(fellowshipModel1 -> {
+                        try {
+                            MimeMessage message = javaMailSender.createMimeMessage();
+                            MimeMessageHelper helper;
+                            helper = new MimeMessageHelper(message, true);
+                            helper.setSubject("Job Offer Letter");
+                            helper.setTo(fellowshipModel1.getEmailId());
+                            helper.setText("You are selected for BridgeLabz fellowship program", true);
+                            javaMailSender.send(message);
+                        } catch (MessagingException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    });
+        }
     }
 }
