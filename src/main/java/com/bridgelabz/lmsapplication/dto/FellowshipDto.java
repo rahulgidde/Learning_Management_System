@@ -3,15 +3,24 @@ package com.bridgelabz.lmsapplication.dto;
 import java.util.Date;
 
 public class FellowshipDto {
-    Long id;
-    String username;
-    String password;
-    String firstName;
-    String lastName;
-    String email;
-    Integer contactNumber;
-    Date creatorStamp;
-    String creatorUser;
+    private Long id;
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private String emailId;
+    private String hiredCity;
+    private String Degree;
+    private Date hiredDate;
+    private long mobileNumber;
+    private long permanentPincode;
+    private String hiredLab;
+    private String attitude;
+    private String communicationRemark;
+    private String knowledgeRemark;
+    private String aggregateRemark;
+    private String status;
+    private Date creatorStamp;
+    private String creatorUser;
     Date birthDate;
     String verifyBirthDate;
     String parentName;
@@ -34,28 +43,20 @@ public class FellowshipDto {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getFirstName() {
         return firstName;
     }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
     }
 
     public String getLastName() {
@@ -66,20 +67,100 @@ public class FellowshipDto {
         this.lastName = lastName;
     }
 
-    public String getEmail() {
-        return email;
+    public String getEmailId() {
+        return emailId;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
     }
 
-    public Integer getContactNumber() {
-        return contactNumber;
+    public String getHiredCity() {
+        return hiredCity;
     }
 
-    public void setContactNumber(Integer contactNumber) {
-        this.contactNumber = contactNumber;
+    public void setHiredCity(String hiredCity) {
+        this.hiredCity = hiredCity;
+    }
+
+    public String getDegree() {
+        return Degree;
+    }
+
+    public void setDegree(String degree) {
+        Degree = degree;
+    }
+
+    public Date getHiredDate() {
+        return hiredDate;
+    }
+
+    public void setHiredDate(Date hiredDate) {
+        this.hiredDate = hiredDate;
+    }
+
+    public long getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(long mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+    public long getPermanentPincode() {
+        return permanentPincode;
+    }
+
+    public void setPermanentPincode(long permanentPincode) {
+        this.permanentPincode = permanentPincode;
+    }
+
+    public String getHiredLab() {
+        return hiredLab;
+    }
+
+    public void setHiredLab(String hiredLab) {
+        this.hiredLab = hiredLab;
+    }
+
+    public String getAttitude() {
+        return attitude;
+    }
+
+    public void setAttitude(String attitude) {
+        this.attitude = attitude;
+    }
+
+    public String getCommunicationRemark() {
+        return communicationRemark;
+    }
+
+    public void setCommunicationRemark(String communicationRemark) {
+        this.communicationRemark = communicationRemark;
+    }
+
+    public String getKnowledgeRemark() {
+        return knowledgeRemark;
+    }
+
+    public void setKnowledgeRemark(String knowledgeRemark) {
+        this.knowledgeRemark = knowledgeRemark;
+    }
+
+    public String getAggregateRemark() {
+        return aggregateRemark;
+    }
+
+    public void setAggregateRemark(String aggregateRemark) {
+        this.aggregateRemark = aggregateRemark;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Date getCreatorStamp() {
