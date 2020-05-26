@@ -21,6 +21,7 @@ public class FellowshipServiceImpl implements IFellowshipService {
     @Autowired
     ModelMapper mapper;
 
+    //METHOD FOR COPY HIRED CANDIDATE TABLE DATA TO FELLOWSHIP CANDIDATE TABLE
     @Override
     public void fellowshipCandidatesData() {
         List list = candidateRepository.findAll();
@@ -30,5 +31,12 @@ public class FellowshipServiceImpl implements IFellowshipService {
             if (fellowshipModel.getCandidateStatus().equals("Accept"))
                 fellowshipRepository.save(fellowshipModel);
         }
+    }
+
+    //METHOD FOR GET FELLOWSHIP CANDIDATE COUNT
+    @Override
+    public int FellowshipCandidateCount() {
+        List list = fellowshipRepository.findAll();
+        return list.size();
     }
 }
