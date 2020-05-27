@@ -54,7 +54,7 @@ public class BeanConfiguration extends WebSecurityConfigurerAdapter {
                 "/user/resetpassword", "/hirecandidate/loadhiredcandidates", "/hirecandidate/hiredcandidatelist",
                 "/hirecandidate/hiredcandidateprofile", "/hirecandidate/updatecandidatestatus", "/hirecandidate/sendemail",
                 "/fellowship/fellowshipcandidatesdata", "/fellowship/fellowshipcandidatecount", "/fellowship/sendjoboffer",
-                "/fellowship/updatepersonalnfo").permitAll().
+                "/fellowship/updatepersonalnfo","/bank/updatebankinfo").permitAll().
                 anyRequest().authenticated().and().
                 exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
