@@ -1,12 +1,11 @@
 package com.bridgelabz.lmsapplication.controller;
 
+import com.bridgelabz.lmsapplication.dto.PersonalInfoDto;
 import com.bridgelabz.lmsapplication.service.IFellowshipService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/fellowship")
@@ -33,5 +32,11 @@ public class FellowshipController {
     public ResponseEntity<String> getJobOfferMail() {
         fellowshipService.jobOfferMail();
         return new ResponseEntity<>("Mail Send Successfully", HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/updatepersonalnfo", method = RequestMethod.PUT)
+    public ResponseEntity<String> updatePersonalInfo(@RequestParam(value = "id") Long id, @RequestBody PersonalInfoDto personalInfoDto) {
+        fellowshipService.personalInfo(id, personalInfoDto);
+        return new ResponseEntity<>("Personal Information Updated", HttpStatus.OK);
     }
 }

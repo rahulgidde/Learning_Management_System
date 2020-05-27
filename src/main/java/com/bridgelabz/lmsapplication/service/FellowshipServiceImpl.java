@@ -1,5 +1,6 @@
 package com.bridgelabz.lmsapplication.service;
 
+import com.bridgelabz.lmsapplication.dto.PersonalInfoDto;
 import com.bridgelabz.lmsapplication.model.FellowshipModel;
 import com.bridgelabz.lmsapplication.repository.CandidateRepository;
 import com.bridgelabz.lmsapplication.repository.FellowshipRepository;
@@ -70,5 +71,22 @@ public class FellowshipServiceImpl implements IFellowshipService {
                         return null;
                     });
         }
+    }
+
+    //METHOD FOR UPDATE PERSONAL INFORMATION
+    @Override
+    public void personalInfo(Long id, PersonalInfoDto personalInfoDto) {
+        fellowshipRepository.findById(id).map(fellowshipModel -> {
+            fellowshipModel.setBirthDate(personalInfoDto.getBirthDate());
+            fellowshipModel.setVerifyBirthDate(personalInfoDto.getVerifyBirthDate());
+            fellowshipModel.setParentName(personalInfoDto.getParentName());
+            fellowshipModel.setParentOccupation(personalInfoDto.getParentOccupation());
+            fellowshipModel.setParentMobileNumber(personalInfoDto.getParentMobileNumber());
+            fellowshipModel.setParentAnnualSalary(personalInfoDto.getParentAnnualSalary());
+            fellowshipModel.setLocalAddress(personalInfoDto.getLocalAddress());
+            fellowshipModel.setPermanentAddress(personalInfoDto.getPermanentAddress());
+            fellowshipModel.setPhotoPath(personalInfoDto.getPhotoPath());
+            return fellowshipModel;
+        }).map(fellowshipRepository::save);
     }
 }
