@@ -10,7 +10,7 @@ import java.util.Date;
 @Setter
 @Entity(name = "candidate_qualification")
 @Table
-public class EducationalInfoModel {
+public class QualificationModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
