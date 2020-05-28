@@ -1,9 +1,9 @@
 package com.bridgelabz.lmsapplication.dto;
 
 public class EmailDto {
-    String emailId;
-    String subject = "Forget Password";
-    String body = "Reset Password";
+    private String emailId;
+    private String subject = "Forget Password";
+    private String body = "Reset Password";
 
     public String getSubject() {
         return subject;

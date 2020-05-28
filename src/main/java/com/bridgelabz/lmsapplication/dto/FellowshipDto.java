@@ -21,19 +21,19 @@ public class FellowshipDto {
     private String status;
     private Date creatorStamp;
     private String creatorUser;
-    Date birthDate;
-    String verifyBirthDate;
-    String parentName;
-    String parentOccupation;
-    int parentMobileNumber;
-    int parentAnnualSalary;
-    String localAddress;
-    String permanentAddress;
-    String photoPath;
-    Date joiningDate;
-    String candidateStatus;
-    String documentStatus;
-    String remark;
+    private Date birthDate;
+    private String verifyBirthDate;
+    private String parentName;
+    private String parentOccupation;
+    private int parentMobileNumber;
+    private int parentAnnualSalary;
+    private String localAddress;
+    private String permanentAddress;
+    private String photoPath;
+    private Date joiningDate;
+    private String candidateStatus;
+    private String documentStatus;
+    private String remark;
 
     public Long getId() {
         return id;

@@ -3,15 +3,15 @@ package com.bridgelabz.lmsapplication.dto;
 import java.util.Date;
 
 public class PersonalInfoDto {
-    Date birthDate;
-    String verifyBirthDate;
-    String parentName;
-    String parentOccupation;
-    int parentMobileNumber;
-    int parentAnnualSalary;
-    String localAddress;
-    String permanentAddress;
-    String photoPath;
+    private Date birthDate;
+    private String verifyBirthDate;
+    private String parentName;
+    private String parentOccupation;
+    private int parentMobileNumber;
+    private int parentAnnualSalary;
+    private String localAddress;
+    private String permanentAddress;
+    private String photoPath;
 
     public Date getBirthDate() {
         return birthDate;

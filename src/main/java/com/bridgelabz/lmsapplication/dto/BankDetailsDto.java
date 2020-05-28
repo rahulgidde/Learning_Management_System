@@ -3,18 +3,18 @@ package com.bridgelabz.lmsapplication.dto;
 import java.util.Date;
 
 public class BankDetailsDto {
-    Long id;
-    Long candidateId;
-    String name;
-    int accountNumber;
-    String accountNumberVerified;
-    String ifscCode;
-    String ifscCodeVerified;
-    int panNumber;
-    int addhaarNumber;
-    String addhaarNumberVerified;
-    Date creatorStamp;
-    String creatorUser;
+    private Long id;
+    private Long candidateId;
+    private String name;
+    private int accountNumber;
+    private String accountNumberVerified;
+    private String ifscCode;
+    private String ifscCodeVerified;
+    private int panNumber;
+    private int addhaarNumber;
+    private String addhaarNumberVerified;
+    private Date creatorStamp;
+    private String creatorUser;
 
     public Long getId() {
         return id;

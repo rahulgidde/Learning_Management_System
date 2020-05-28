@@ -3,15 +3,15 @@ package com.bridgelabz.lmsapplication.dto;
 import java.util.Date;
 
 public class UserDto {
-    Long id;
-    String username;
-    String password;
-    String firstName;
-    String lastName;
-    String email;
-    Integer contactNumber;
-    Date creatorStamp;
-    String creatorUser;
+    private Long id;
+    private String username;
+    private String password;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private Integer contactNumber;
+    private Date creatorStamp;
+    private String creatorUser;
 
     public Long getId() {
         return id;
