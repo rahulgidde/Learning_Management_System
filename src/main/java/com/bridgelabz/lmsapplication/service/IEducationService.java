@@ -1,7 +1,7 @@
 package com.bridgelabz.lmsapplication.service;
 
-import com.bridgelabz.lmsapplication.dto.EducationalInfoDto;
+import com.bridgelabz.lmsapplication.dto.QualificationDto;
 
-public interface EducationService {
-    void educationalInfo(EducationalInfoDto educationalInfoDto);
+public interface IEducationService {
+    void educationalInfo(QualificationDto qualificationDto);
 }

@@ -1,7 +1,7 @@
 package com.bridgelabz.lmsapplication.controller;
 
-import com.bridgelabz.lmsapplication.dto.EducationalInfoDto;
-import com.bridgelabz.lmsapplication.service.EducationService;
+import com.bridgelabz.lmsapplication.dto.QualificationDto;
+import com.bridgelabz.lmsapplication.service.IEducationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,16 +11,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/education")
-public class EducationController {
+@RequestMapping("/qualification")
+public class QualificationController {
 
     @Autowired
-    EducationService educationService;
+    IEducationService educationService;
 
     //API FOR UPDATE EDUCATIONAL DETAILS
     @RequestMapping(value="/updateeducationalinfo",method = RequestMethod.POST)
-    public ResponseEntity<String> updateEducationalInfo(@RequestBody EducationalInfoDto educationalInfoDto){
-        educationService.educationalInfo(educationalInfoDto);
-        return new ResponseEntity<>("Educational Information Updated", HttpStatus.OK);
+    public ResponseEntity<String> updateEducationalInfo(@RequestBody QualificationDto qualificationDto){
+        educationService.educationalInfo(qualificationDto);
+        return new ResponseEntity<>("Educational Information Updated Successfully", HttpStatus.OK);
     }
 }
