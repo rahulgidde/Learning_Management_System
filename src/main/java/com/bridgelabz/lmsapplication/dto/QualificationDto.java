@@ -2,7 +2,7 @@ package com.bridgelabz.lmsapplication.dto;
 
 import java.util.Date;
 
-public class EducationalInfoDto {
+public class QualificationDto {
     private Long id;
     private Long candidateId;
     private String diploma;
