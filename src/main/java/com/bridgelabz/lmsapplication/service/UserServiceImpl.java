@@ -59,8 +59,7 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
     public UserDetailModel loadUserDetails(UserDto userDto) {
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         UserDetailModel user = mapper.map(userDto, UserDetailModel.class);
-        repository.save(user);
-        return user;
+       return repository.save(user);
     }
 
     //METHOD FOR REST PASSWORD
