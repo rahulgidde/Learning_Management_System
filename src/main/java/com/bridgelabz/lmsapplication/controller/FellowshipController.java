@@ -18,13 +18,13 @@ public class FellowshipController {
     @RequestMapping(value = "/fellowshipcandidatesdata", method = RequestMethod.POST)
     public ResponseEntity<String> getFellowshipCandidateData() {
         fellowshipService.fellowshipCandidatesData();
-        return new ResponseEntity<>("Data Copied Successfully", HttpStatus.OK);
+        return new ResponseEntity<>("Data Copied Successfully", HttpStatus.ACCEPTED);
     }
 
     //API FOR GET CANDIDATE COUNT
     @RequestMapping(value = "/fellowshipcandidatecount", method = RequestMethod.GET)
     public ResponseEntity<Integer> getFellowshipCandidateCount() {
-        return new ResponseEntity<>(fellowshipService.FellowshipCandidateCount(), HttpStatus.OK);
+        return new ResponseEntity<>(fellowshipService.FellowshipCandidateCount(), HttpStatus.FOUND);
     }
 
     //API FOR SEND JOB OFFER MAIL
@@ -37,6 +37,6 @@ public class FellowshipController {
     @RequestMapping(value = "/updatepersonalnfo", method = RequestMethod.PUT)
     public ResponseEntity<String> updatePersonalInfo(@RequestParam(value = "id") Long id, @RequestBody PersonalInfoDto personalInfoDto) {
         fellowshipService.personalInfo(id, personalInfoDto);
-        return new ResponseEntity<>("Personal Information Updated", HttpStatus.OK);
+        return new ResponseEntity<>("Personal Information Updated", HttpStatus.FOUND);
     }
 }
