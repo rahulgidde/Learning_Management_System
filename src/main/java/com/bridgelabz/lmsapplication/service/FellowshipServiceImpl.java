@@ -20,16 +20,16 @@ import java.util.Optional;
 @Service
 public class FellowshipServiceImpl implements IFellowshipService {
     @Autowired
-    CandidateRepository candidateRepository;
+    private CandidateRepository candidateRepository;
 
     @Autowired
-    FellowshipRepository fellowshipRepository;
+    private FellowshipRepository fellowshipRepository;
 
     @Autowired
-    ModelMapper mapper;
+    private ModelMapper mapper;
 
     @Autowired
-    JavaMailSender javaMailSender;
+    private JavaMailSender javaMailSender;
 
     //METHOD FOR COPY HIRED CANDIDATE TABLE DATA TO FELLOWSHIP CANDIDATE TABLE
     @Override

@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class QualificationController {
 
     @Autowired
-    IEducationService educationService;
+    private IEducationService educationService;
 
     //API FOR UPDATE EDUCATIONAL DETAILS
-    @RequestMapping(value="/updateeducationalinfo",method = RequestMethod.POST)
-    public ResponseEntity<String> updateEducationalInfo(@RequestBody QualificationDto qualificationDto){
+    @RequestMapping(value = "/updateeducationalinfo", method = RequestMethod.POST)
+    public ResponseEntity<String> updateEducationalInfo(@RequestBody QualificationDto qualificationDto) {
         educationService.educationalInfo(qualificationDto);
         return new ResponseEntity<>("Educational Information Updated Successfully", HttpStatus.ACCEPTED);
     }

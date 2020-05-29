@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class FellowshipController {
 
     @Autowired
-    IFellowshipService fellowshipService;
+    private IFellowshipService fellowshipService;
 
     //API FOR COPY ONE TABLE DATA TO ANOTHER TABLE
     @RequestMapping(value = "/fellowshipcandidatesdata", method = RequestMethod.POST)

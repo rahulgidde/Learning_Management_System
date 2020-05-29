@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class EducationServiceImpl implements IEducationService {
     @Autowired
-    QualificationRepository qualificationRepository;
+    private QualificationRepository qualificationRepository;
 
     @Autowired
-    ModelMapper mapper;
+    private ModelMapper mapper;
 
     //METHOD FOR UPDATE EDUCATIONAL DETAILS
     @Override

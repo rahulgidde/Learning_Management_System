@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/bank")
 public class BankController {
     @Autowired
-    IBankService bankService;
+    private IBankService bankService;
 
     //API FOR UPDATE BANK INFORMATION
     @RequestMapping(value = "/updatebankinfo", method = RequestMethod.POST)

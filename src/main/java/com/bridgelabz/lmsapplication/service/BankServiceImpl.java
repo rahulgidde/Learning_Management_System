@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 public class BankServiceImpl implements IBankService {
 
     @Autowired
-    BankRepository bankRepository;
+    private BankRepository bankRepository;
 
     @Autowired
-    ModelMapper mapper;
+    private ModelMapper mapper;
 
     //METHOD FOR UPDATE CANDIDATE BANK INFORMATION
     @Override
