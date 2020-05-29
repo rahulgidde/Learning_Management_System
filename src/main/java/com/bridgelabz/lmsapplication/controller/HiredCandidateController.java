@@ -38,7 +38,7 @@ public class HiredCandidateController {
 
     //API FOR SEND EMAIL
     @RequestMapping(value = "/sendemail", method = RequestMethod.POST)
-    public ResponseEntity<?> getCandidateStatus(@RequestBody EmailDto emailDto) {
+    public ResponseEntity<String> getCandidateStatus(@RequestBody EmailDto emailDto) {
         service.sendEmail(emailDto);
         return new ResponseEntity<>("Email Send Successfully", HttpStatus.OK);
     }
