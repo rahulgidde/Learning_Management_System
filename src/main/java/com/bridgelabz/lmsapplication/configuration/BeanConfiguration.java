@@ -54,7 +54,8 @@ public class BeanConfiguration extends WebSecurityConfigurerAdapter {
                 "/user/resetpassword", "/hirecandidate/loadhiredcandidates", "/hirecandidate/hiredcandidatelist",
                 "/hirecandidate/hiredcandidateprofile", "/hirecandidate/updatecandidatestatus", "/hirecandidate/sendemail",
                 "/fellowship/fellowshipcandidatesdata", "/fellowship/fellowshipcandidatecount", "/fellowship/sendjoboffer",
-                "/fellowship/updatepersonalnfo", "/bank/updatebankinfo", "/qualification/updateeducationalinfo").permitAll().
+                "/fellowship/updatepersonalnfo", "/bank/updatebankinfo", "/qualification/updateeducationalinfo",
+                "/swagger-resources/**", "/swagger-ui.html", "/v2/api-docs", "/webjars/**").permitAll().
                 anyRequest().authenticated().and().
                 exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
