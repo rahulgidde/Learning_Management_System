@@ -21,6 +21,6 @@ public class QualificationController {
     @RequestMapping(value="/updateeducationalinfo",method = RequestMethod.POST)
     public ResponseEntity<String> updateEducationalInfo(@RequestBody QualificationDto qualificationDto){
         educationService.educationalInfo(qualificationDto);
-        return new ResponseEntity<>("Educational Information Updated Successfully", HttpStatus.OK);
+        return new ResponseEntity<>("Educational Information Updated Successfully", HttpStatus.ACCEPTED);
     }
 }

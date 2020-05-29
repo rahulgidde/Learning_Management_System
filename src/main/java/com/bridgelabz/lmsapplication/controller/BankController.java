@@ -17,6 +17,6 @@ public class BankController {
     @RequestMapping(value = "/updatebankinfo", method = RequestMethod.POST)
     public ResponseEntity<String> getBankDetails(@RequestBody BankDetailsDto bankDetailsDto) {
         bankService.bankDetails(bankDetailsDto);
-        return new ResponseEntity<>("Bank Details Updated", HttpStatus.OK);
+        return new ResponseEntity<>("Bank Details Updated", HttpStatus.ACCEPTED);
     }
 }
