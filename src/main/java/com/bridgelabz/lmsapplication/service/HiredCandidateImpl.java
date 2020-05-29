@@ -50,18 +50,26 @@ public class HiredCandidateImpl implements IHiredCandidateService {
 
     //METHOD FOR SEND STATUS EMAIL
     @Override
-    public void sendEmail(EmailDto emailDto) throws MessagingException {
-        MimeMessage message = javaMailSender.createMimeMessage();
-        MimeMessageHelper helper;
-        helper = new MimeMessageHelper(message, true);
-        helper.setSubject(emailDto.getSubject());
-        helper.setTo(emailDto.getEmailId());
-        helper.setText("Hii Rahul " +
-                "You are selected for BridgeLabz fellowship program, if You want to join click on below link (ACCEPT)" +
-                " http://localhost:8082/hirecandidate/updatecandidatestatus?id=1&status=Accept " +
-                "otherwise (REJECT)" +
-                "http://localhost:8082/hirecandidate/updatecandidatestatus?id=1&status=Reject", true);
-        javaMailSender.send(message);
+    public void sendEmail(EmailDto emailDto) {
+        repository.findByEmailId(emailDto.getEmailId()).map(hiredCandidateModel -> {
+            try {
+                MimeMessage message = javaMailSender.createMimeMessage();
+                MimeMessageHelper helper;
+                helper = new MimeMessageHelper(message, true);
+                helper.setSubject(emailDto.getSubject());
+                helper.setTo(hiredCandidateModel.getEmailId());
+                helper.setText("Hii Rahul " +
+                        "You are selected for BridgeLabz fellowship program, if You want to join click on below link (ACCEPT)" +
+                        " http://localhost:8082/hirecandidate/updatecandidatestatus?id=1&status=Accept " +
+                        "otherwise (REJECT)" +
+                        "http://localhost:8082/hirecandidate/updatecandidatestatus?id=1&status=Reject", true);
+                javaMailSender.send(message);
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+            return hiredCandidateModel;
+        })
+                .orElseThrow(() -> new UserException(UserException.exceptionType.INVALID_EMAIL_ID, "Invalid EmailId"));
     }
 
     //METHOD FOR UPDATE CANDIDATE STATUS
@@ -72,7 +80,7 @@ public class HiredCandidateImpl implements IHiredCandidateService {
                     hiredCandidateModel.setStatus(status);
                     return hiredCandidateModel;
                 }).map(repository::save)
-                .orElseThrow(() -> new UserException(UserException.exceptionType.User_Not_FOUND, "Candidate Not Found"));
+                .orElseThrow(() -> new UserException(UserException.exceptionType.User_Not_FOUND, "Candidate Id Not Found"));
     }
 
     //METHOD FOR LOAD HIRED CANDIDATE EXCEL SHEET
