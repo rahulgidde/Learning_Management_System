@@ -1,6 +1,7 @@
 package com.bridgelabz.lmsapplication.service;
 
 import com.bridgelabz.lmsapplication.dto.PersonalInfoDto;
+import com.bridgelabz.lmsapplication.exception.UserException;
 import com.bridgelabz.lmsapplication.model.FellowshipModel;
 import com.bridgelabz.lmsapplication.repository.CandidateRepository;
 import com.bridgelabz.lmsapplication.repository.FellowshipRepository;
@@ -87,6 +88,7 @@ public class FellowshipServiceImpl implements IFellowshipService {
             fellowshipModel.setPermanentAddress(personalInfoDto.getPermanentAddress());
             fellowshipModel.setPhotoPath(personalInfoDto.getPhotoPath());
             return fellowshipModel;
-        }).map(fellowshipRepository::save);
+        }).map(fellowshipRepository::save)
+                .orElseThrow(() -> new UserException(UserException.exceptionType.User_Not_FOUND, "Candidate Not Found"));
     }
 }
