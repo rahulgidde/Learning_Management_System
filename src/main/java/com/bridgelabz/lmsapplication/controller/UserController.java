@@ -1,8 +1,9 @@
 package com.bridgelabz.lmsapplication.controller;
 
+import com.bridgelabz.lmsapplication.configuration.ApplicationConfiguration;
+import com.bridgelabz.lmsapplication.dto.ResponseDto;
 import com.bridgelabz.lmsapplication.dto.UserDto;
 import com.bridgelabz.lmsapplication.model.JwtRequest;
-import com.bridgelabz.lmsapplication.model.JwtResponse;
 import com.bridgelabz.lmsapplication.model.UserDetailModel;
 import com.bridgelabz.lmsapplication.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,34 +22,37 @@ public class UserController {
 
     //API FOR AUTHENTICATE USER
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-    public ResponseEntity<JwtResponse> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+    public ResponseEntity<ResponseDto> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
         String token = userService.createAuthenticationToken(authenticationRequest);
-        return new ResponseEntity<>(new JwtResponse(token), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDto(token, ApplicationConfiguration.getMessageAccessor()
+                .getMessage("106")), HttpStatus.OK);
     }
 
     //API FOR USER LOGIN
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<String> login() {
-        return new ResponseEntity<>("Login Successfully", HttpStatus.OK);
+        return new ResponseEntity<>(ApplicationConfiguration.getMessageAccessor().getMessage("102"), HttpStatus.OK);
     }
 
     //API FOR REGISTER USER IN LMS APPLICATION
     @RequestMapping(value = "/registeruser", method = RequestMethod.POST)
     public ResponseEntity<UserDetailModel> register(@RequestBody UserDto user) {
-        return new ResponseEntity(userService.loadUserDetails(user), HttpStatus.OK);
+        return new ResponseEntity(new ResponseDto(userService.loadUserDetails(user), ApplicationConfiguration
+                .getMessageAccessor().getMessage("101")), HttpStatus.ACCEPTED);
     }
 
     //FORGET PASSWORD API
     @RequestMapping(value = "/sendemail", method = RequestMethod.POST)
-    public ResponseEntity<String> sentMail(@RequestParam(value = "emailId") String emailId) throws MessagingException {
-        userService.sendEmail(emailId);
-        return new ResponseEntity<>("Email Send Successfully", HttpStatus.OK);
+    public ResponseEntity<ResponseDto> sentMail(@RequestParam(value = "emailId") String emailId) throws MessagingException {
+        return new ResponseEntity<>(new ResponseDto(userService.sendEmail(emailId), ApplicationConfiguration.getMessageAccessor().
+                getMessage("103")), HttpStatus.OK);
     }
 
     //RESET PASSWORD API
     @RequestMapping(value = "/resetpassword", method = RequestMethod.PUT)
-    public ResponseEntity<String> resetPassword(@RequestParam(value = "password") String password, @RequestParam(value = "token") String token) {
-        userService.resetPassword(token, password);
-        return new ResponseEntity<>("Password Changed Successfully", HttpStatus.OK);
+    public ResponseEntity<ResponseDto> resetPassword(@RequestParam(value = "password") String password,
+                                                     @RequestParam(value = "token") String token) {
+        return new ResponseEntity<>(new ResponseDto(userService.resetPassword(token, password), ApplicationConfiguration
+                .getMessageAccessor().getMessage("104")), HttpStatus.OK);
     }
 }
