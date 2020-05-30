@@ -50,7 +50,7 @@ public class HiredCandidateImpl implements IHiredCandidateService {
 
     //METHOD FOR SEND STATUS EMAIL
     @Override
-    public void sendEmail(EmailDto emailDto) {
+    public boolean sendEmail(EmailDto emailDto) {
         repository.findByEmailId(emailDto.getEmailId()).map(hiredCandidateModel -> {
             try {
                 MimeMessage message = javaMailSender.createMimeMessage();
@@ -70,6 +70,7 @@ public class HiredCandidateImpl implements IHiredCandidateService {
             return hiredCandidateModel;
         })
                 .orElseThrow(() -> new UserException(UserException.exceptionType.INVALID_EMAIL_ID, "Invalid EmailId"));
+        return true;
     }
 
     //METHOD FOR UPDATE CANDIDATE STATUS
@@ -85,7 +86,7 @@ public class HiredCandidateImpl implements IHiredCandidateService {
 
     //METHOD FOR LOAD HIRED CANDIDATE EXCEL SHEET
     @Override
-    public void loadHiredCandidateSheet(String filePath) {
+    public boolean loadHiredCandidateSheet(String filePath) {
         int flag = 0;
         HiredCandidateDto hiredCandidateDto = new HiredCandidateDto();
         try (FileInputStream fis = new FileInputStream(filePath)) {
@@ -143,5 +144,6 @@ public class HiredCandidateImpl implements IHiredCandidateService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return true;
     }
 }
