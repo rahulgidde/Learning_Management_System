@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
     public UserDetailModel loadUserDetails(UserDto userDto) {
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         UserDetailModel user = mapper.map(userDto, UserDetailModel.class);
-       return repository.save(user);
+        return repository.save(user);
     }
 
     //METHOD FOR REST PASSWORD
@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
 
     //METHOD FOR SEND EMAIL
     @Override
-    public void sendEmail(String emailId) throws MessagingException {
+    public boolean sendEmail(String emailId) throws MessagingException {
         EmailDto emailDto = new EmailDto();
         emailDto.setEmailId(emailId);
         UserDetailModel user = repository.findByEmail(emailId)
@@ -90,6 +90,7 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
         helper.setTo(emailId);
         helper.setText(token, true);
         javaMailSender.send(message);
+        return true;
     }
 
     //METHOD FOR USER AUTHENTICATION
