@@ -33,7 +33,7 @@ public class FellowshipServiceImpl implements IFellowshipService {
 
     //METHOD FOR COPY HIRED CANDIDATE TABLE DATA TO FELLOWSHIP CANDIDATE TABLE
     @Override
-    public void fellowshipCandidatesData() {
+    public boolean fellowshipCandidatesData() {
         List list = candidateRepository.findAll();
         ListIterator iterator = list.listIterator();
         while (iterator.hasNext()) {
@@ -41,18 +41,18 @@ public class FellowshipServiceImpl implements IFellowshipService {
             if (fellowshipModel.getCandidateStatus().equals("Accept"))
                 fellowshipRepository.save(fellowshipModel);
         }
+        return true;
     }
 
     //METHOD FOR GET FELLOWSHIP CANDIDATE COUNT
     @Override
-    public int FellowshipCandidateCount() {
-        List list = fellowshipRepository.findAll();
-        return list.size();
+    public int fellowshipCandidateCount() {
+        return fellowshipRepository.findAll().size();
     }
 
     //METHOD FOR SEND JOB OFFER MAIL
     @Override
-    public void jobOfferMail() {
+    public boolean jobOfferMail() {
         List list = fellowshipRepository.findAll();
         ListIterator listIterator = list.listIterator();
         while (listIterator.hasNext()) {
@@ -72,12 +72,13 @@ public class FellowshipServiceImpl implements IFellowshipService {
                         return null;
                     });
         }
+        return true;
     }
 
     //METHOD FOR UPDATE PERSONAL INFORMATION
     @Override
-    public void personalInfo(Long id, PersonalInfoDto personalInfoDto) {
-        fellowshipRepository.findById(id).map(fellowshipModel -> {
+    public FellowshipModel personalInfo(Long id, PersonalInfoDto personalInfoDto) {
+        FellowshipModel fellowshipModel1 = fellowshipRepository.findById(id).map(fellowshipModel -> {
             fellowshipModel.setBirthDate(personalInfoDto.getBirthDate());
             fellowshipModel.setVerifyBirthDate(personalInfoDto.getVerifyBirthDate());
             fellowshipModel.setParentName(personalInfoDto.getParentName());
@@ -90,5 +91,6 @@ public class FellowshipServiceImpl implements IFellowshipService {
             return fellowshipModel;
         }).map(fellowshipRepository::save)
                 .orElseThrow(() -> new UserException(UserException.exceptionType.User_Not_FOUND, "Candidate Not Found"));
+        return fellowshipModel1;
     }
 }
