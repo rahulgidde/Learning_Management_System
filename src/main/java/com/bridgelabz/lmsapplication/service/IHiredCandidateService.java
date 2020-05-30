@@ -6,13 +6,13 @@ import com.bridgelabz.lmsapplication.model.HiredCandidateModel;
 import java.util.List;
 
 public interface IHiredCandidateService {
-    void loadHiredCandidateSheet(String filePath);
+    boolean loadHiredCandidateSheet(String filePath);
 
     List getHiredCandidatesList();
 
     HiredCandidateModel getHiredCandidatesProfile(Long candidateId);
 
-    void sendEmail(EmailDto emailDto);
+    boolean sendEmail(EmailDto emailDto);
 
     HiredCandidateModel updateStatus(Long id, String status);
 }
