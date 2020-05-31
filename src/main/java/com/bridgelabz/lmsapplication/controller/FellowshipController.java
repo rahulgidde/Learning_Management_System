@@ -1,7 +1,9 @@
 package com.bridgelabz.lmsapplication.controller;
 
 import com.bridgelabz.lmsapplication.configuration.ApplicationConfiguration;
+import com.bridgelabz.lmsapplication.dto.BankDetailsDto;
 import com.bridgelabz.lmsapplication.dto.PersonalInfoDto;
+import com.bridgelabz.lmsapplication.dto.QualificationDto;
 import com.bridgelabz.lmsapplication.dto.ResponseDto;
 import com.bridgelabz.lmsapplication.model.FellowshipModel;
 import com.bridgelabz.lmsapplication.service.IFellowshipService;
@@ -44,5 +46,19 @@ public class FellowshipController {
         FellowshipModel fellowshipModel = fellowshipService.personalInfo(id, personalInfoDto);
         return new ResponseEntity<>(new ResponseDto(fellowshipModel, ApplicationConfiguration.getMessageAccessor()
                 .getMessage("114")), HttpStatus.FOUND);
+    }
+
+    //API FOR UPDATE BANK INFORMATION
+    @RequestMapping(value = "/updatebankinfo", method = RequestMethod.POST)
+    public ResponseEntity<ResponseDto> updateBankDetails(@RequestBody BankDetailsDto bankDetailsDto) {
+        return new ResponseEntity<>(new ResponseDto(fellowshipService.bankDetails(bankDetailsDto),
+                ApplicationConfiguration.getMessageAccessor().getMessage("108")), HttpStatus.ACCEPTED);
+    }
+
+    //API FOR UPDATE EDUCATIONAL DETAILS
+    @RequestMapping(value = "/updateeducationalinfo", method = RequestMethod.POST)
+    public ResponseEntity<ResponseDto> updateEducationalInfo(@RequestBody QualificationDto qualificationDto) {
+        return new ResponseEntity<>(new ResponseDto(fellowshipService.educationalInfo(qualificationDto),
+                ApplicationConfiguration.getMessageAccessor().getMessage("111")), HttpStatus.ACCEPTED);
     }
 }
