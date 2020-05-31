@@ -20,27 +20,28 @@ public class FellowshipController {
     private IFellowshipService fellowshipService;
 
     //API FOR COPY ONE TABLE DATA TO ANOTHER TABLE
-    @RequestMapping(value = "/fellowshipcandidatesdata", method = RequestMethod.POST)
+    @PostMapping(value = "/fellowshipcandidatesdata")
     public ResponseEntity<ResponseDto> fellowshipCandidatesData() {
         return new ResponseEntity<>(new ResponseDto(fellowshipService.fellowshipCandidatesData(),
                 ApplicationConfiguration.getMessageAccessor().getMessage("109")), HttpStatus.ACCEPTED);
     }
 
     //API FOR GET CANDIDATE COUNT
-    @RequestMapping(value = "/fellowshipcandidatecount", method = RequestMethod.GET)
+    @GetMapping(value = "/fellowshipcandidatecount")
     public ResponseEntity<ResponseDto> fellowshipCandidateCount() {
         return new ResponseEntity<>(new ResponseDto(fellowshipService.fellowshipCandidateCount(),
                 ApplicationConfiguration.getMessageAccessor().getMessage("113")), HttpStatus.FOUND);
     }
 
     //API FOR SEND JOB OFFER MAIL
-    @RequestMapping(value = "/sendjoboffer", method = RequestMethod.POST)
+    @PostMapping(value = "/sendjoboffer")
     public ResponseEntity<ResponseDto> sendJobOfferMail() {
         return new ResponseEntity<>(new ResponseDto(fellowshipService.jobOfferMail(),
                 ApplicationConfiguration.getMessageAccessor().getMessage("103")), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/updatepersonalnfo", method = RequestMethod.PUT)
+    //API FOR UPDATE CANDIDATE PERSONAL INFORMATION
+    @PutMapping(value = "/updatepersonalnfo")
     public ResponseEntity<ResponseDto> updateCandidatePersonalInfo(@RequestParam(value = "id") Long id,
                                                                    @RequestBody PersonalInfoDto personalInfoDto) {
         FellowshipModel fellowshipModel = fellowshipService.personalInfo(id, personalInfoDto);
@@ -49,14 +50,14 @@ public class FellowshipController {
     }
 
     //API FOR UPDATE BANK INFORMATION
-    @RequestMapping(value = "/updatebankinfo", method = RequestMethod.POST)
+    @PostMapping(value = "/updatebankinfo")
     public ResponseEntity<ResponseDto> updateBankDetails(@RequestBody BankDetailsDto bankDetailsDto) {
         return new ResponseEntity<>(new ResponseDto(fellowshipService.bankDetails(bankDetailsDto),
                 ApplicationConfiguration.getMessageAccessor().getMessage("108")), HttpStatus.ACCEPTED);
     }
 
     //API FOR UPDATE EDUCATIONAL DETAILS
-    @RequestMapping(value = "/updateeducationalinfo", method = RequestMethod.POST)
+    @PostMapping(value = "/updateeducationalinfo")
     public ResponseEntity<ResponseDto> updateEducationalInfo(@RequestBody QualificationDto qualificationDto) {
         return new ResponseEntity<>(new ResponseDto(fellowshipService.educationalInfo(qualificationDto),
                 ApplicationConfiguration.getMessageAccessor().getMessage("111")), HttpStatus.ACCEPTED);
