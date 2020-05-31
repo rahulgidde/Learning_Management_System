@@ -1,10 +1,16 @@
 package com.bridgelabz.lmsapplication.service;
 
+import com.bridgelabz.lmsapplication.dto.BankDetailsDto;
 import com.bridgelabz.lmsapplication.dto.PersonalInfoDto;
+import com.bridgelabz.lmsapplication.dto.QualificationDto;
 import com.bridgelabz.lmsapplication.exception.UserException;
+import com.bridgelabz.lmsapplication.model.BankDetailsModel;
 import com.bridgelabz.lmsapplication.model.FellowshipModel;
+import com.bridgelabz.lmsapplication.model.QualificationModel;
+import com.bridgelabz.lmsapplication.repository.BankRepository;
 import com.bridgelabz.lmsapplication.repository.CandidateRepository;
 import com.bridgelabz.lmsapplication.repository.FellowshipRepository;
+import com.bridgelabz.lmsapplication.repository.QualificationRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -30,6 +36,12 @@ public class FellowshipServiceImpl implements IFellowshipService {
 
     @Autowired
     private JavaMailSender javaMailSender;
+
+    @Autowired
+    private BankRepository bankRepository;
+
+    @Autowired
+    private QualificationRepository qualificationRepository;
 
     //METHOD FOR COPY HIRED CANDIDATE TABLE DATA TO FELLOWSHIP CANDIDATE TABLE
     @Override
@@ -73,6 +85,20 @@ public class FellowshipServiceImpl implements IFellowshipService {
                     });
         }
         return true;
+    }
+
+    //METHOD FOR UPDATE CANDIDATE BANK INFORMATION
+    @Override
+    public BankDetailsModel bankDetails(BankDetailsDto bankDetailsDto) {
+        BankDetailsModel bankDetailsModel = mapper.map(bankDetailsDto, BankDetailsModel.class);
+        return bankRepository.save(bankDetailsModel);
+    }
+
+    //METHOD FOR UPDATE EDUCATIONAL DETAILS
+    @Override
+    public QualificationModel educationalInfo(QualificationDto qualificationDto) {
+        QualificationModel qualificationModel = mapper.map(qualificationDto, QualificationModel.class);
+        return qualificationRepository.save(qualificationModel);
     }
 
     //METHOD FOR UPDATE PERSONAL INFORMATION
