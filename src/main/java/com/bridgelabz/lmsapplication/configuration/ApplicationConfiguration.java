@@ -61,7 +61,7 @@ public class ApplicationConfiguration extends WebSecurityConfigurerAdapter {
                 "/user/resetpassword", "/hirecandidate/loadhiredcandidates", "/hirecandidate/hiredcandidatelist",
                 "/hirecandidate/hiredcandidateprofile", "/hirecandidate/updatecandidatestatus", "/hirecandidate/sendemail",
                 "/fellowship/fellowshipcandidatesdata", "/fellowship/fellowshipcandidatecount", "/fellowship/sendjoboffer",
-                "/fellowship/updatepersonalnfo", "/bank/updatebankinfo", "/qualification/updateeducationalinfo",
+                "/fellowship/updatepersonalnfo", "/fellowship/updatebankinfo", "/fellowship/updateeducationalinfo",
                 "/swagger-resources/**", "/swagger-ui.html", "/v2/api-docs", "/webjars/**").permitAll().
                 anyRequest().authenticated().and().
                 exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
