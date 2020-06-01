@@ -137,7 +137,7 @@ public class FellowshipServiceImpl implements IFellowshipService {
         try {
             DocumentDto document = new ObjectMapper().readValue(documentDto, DocumentDto.class);
             if (file.isEmpty())
-                throw new UserException(UserException.exceptionType.FiLE_NOT_FOUND, "Failed to store empty file");
+                throw new UserException(UserException.exceptionType.FiLE_NOT_FOUND, "Failed is empty file");
             Map<Object, Object> parameters = new HashMap<>();
             parameters.put("public_id", "CandidateDocuments/" + document.getId() + "/" + file.getOriginalFilename());
             File uploadedFile = convertMultiPartToFile(file);
