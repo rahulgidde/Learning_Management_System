@@ -26,5 +26,5 @@ public interface IFellowshipService {
 
     public File convertMultiPartToFile(MultipartFile file) throws IOException;
 
-    public String uploadFile(MultipartFile file, String id);
+    String uploadFile(MultipartFile file, String id);
 }
