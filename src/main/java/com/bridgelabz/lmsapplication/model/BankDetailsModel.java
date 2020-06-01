@@ -1,13 +1,11 @@
 package com.bridgelabz.lmsapplication.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Data
 @Entity(name = "candidate_bank_details")
 @Table
 public class BankDetailsModel {
@@ -23,6 +21,26 @@ public class BankDetailsModel {
     private int panNumber;
     private int addhaarNumber;
     private String addhaarNumberVerified;
-    private Date creatorStamp;
-    private String creatorUser;
+    private LocalDateTime creatorStamp;
+    private long creatorUser;
+
+    public LocalDateTime getCreatorStamp() {
+        return creatorStamp;
+    }
+
+    public void setCreatorStamp(LocalDateTime creatorStamp) {
+        this.creatorStamp = LocalDateTime.now();
+    }
+
+    public long getCreatorUser() {
+        return creatorUser;
+    }
+
+    public void setCreatorUser(long creatorUser) {
+        this.creatorUser = this.candidateId;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "candidateId", referencedColumnName = "id", insertable = false, updatable = false)
+    private FellowshipModel fellowshipModel;
 }
