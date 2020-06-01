@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/fellowship")
@@ -61,5 +62,14 @@ public class FellowshipController {
     public ResponseEntity<ResponseDto> updateEducationalInfo(@RequestBody QualificationDto qualificationDto) {
         return new ResponseEntity<>(new ResponseDto(fellowshipService.educationalInfo(qualificationDto),
                 ApplicationConfiguration.getMessageAccessor().getMessage("111")), HttpStatus.ACCEPTED);
+    }
+
+    //API FOR UPLOAD DOCUMENTS
+    @PostMapping("/uploaddocument")
+    public ResponseEntity<ResponseDto> uploadFile(@RequestParam("file") MultipartFile file,
+                                                  @RequestParam(value = "documentDto") String documentDto) {
+        String url = fellowshipService.uploadFile(file, documentDto);
+        return new ResponseEntity<>(new ResponseDto(url, ApplicationConfiguration.getMessageAccessor()
+                .getMessage("116")), HttpStatus.ACCEPTED);
     }
 }

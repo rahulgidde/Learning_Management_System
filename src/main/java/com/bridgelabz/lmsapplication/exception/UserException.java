@@ -11,5 +11,6 @@ public class UserException extends RuntimeException {
     public enum exceptionType {
         User_Not_FOUND,
         INVALID_EMAIL_ID,
+        FiLE_NOT_FOUND;
     }
 }

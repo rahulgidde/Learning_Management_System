@@ -1,34 +1,40 @@
 package com.bridgelabz.lmsapplication.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.util.Date;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Entity(name = "candidate_documents")
+@Data
+@Entity(name = "candidate_document")
 @Table
 public class DocumentModel {
     @Id
-    long id;
+    private long id;
     private Long candidateId;
     private String documentType;
     private String documentPath;
     private String status;
-    private Date creatorStatus;
-    private String creatorUser;
+    private LocalDateTime creatorStamp;
+    private long creatorUser;
 
-    public DocumentModel(String fileName, String contentType, byte[] bytes) {
-    this.documentPath = fileName;
-    this.documentType = contentType;
-    this.data = bytes;
-}
+    public LocalDateTime getCreatorStamp() {
+        return creatorStamp;
+    }
+
+    public void setCreatorStamp(LocalDateTime creatorStamp) {
+        this.creatorStamp = LocalDateTime.now();
+    }
+
+    public long getCreatorUser() {
+        return creatorUser;
+    }
+
+    public void setCreatorUser(long creatorUser) {
+        this.creatorUser = this.candidateId;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "candidateId", referencedColumnName = "id", insertable = false, updatable = false)
+    private FellowshipModel fellowshipModel;
 }

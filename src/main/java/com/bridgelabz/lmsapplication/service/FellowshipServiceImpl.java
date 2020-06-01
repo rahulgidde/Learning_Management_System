@@ -1,27 +1,31 @@
 package com.bridgelabz.lmsapplication.service;
 
+import com.bridgelabz.lmsapplication.configuration.ApplicationConfiguration;
 import com.bridgelabz.lmsapplication.dto.BankDetailsDto;
+import com.bridgelabz.lmsapplication.dto.DocumentDto;
 import com.bridgelabz.lmsapplication.dto.PersonalInfoDto;
 import com.bridgelabz.lmsapplication.dto.QualificationDto;
 import com.bridgelabz.lmsapplication.exception.UserException;
 import com.bridgelabz.lmsapplication.model.BankDetailsModel;
+import com.bridgelabz.lmsapplication.model.DocumentModel;
 import com.bridgelabz.lmsapplication.model.FellowshipModel;
 import com.bridgelabz.lmsapplication.model.QualificationModel;
-import com.bridgelabz.lmsapplication.repository.BankRepository;
-import com.bridgelabz.lmsapplication.repository.CandidateRepository;
-import com.bridgelabz.lmsapplication.repository.FellowshipRepository;
-import com.bridgelabz.lmsapplication.repository.QualificationRepository;
+import com.bridgelabz.lmsapplication.repository.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.modelmapper.ModelMapper;
+import com.cloudinary.Cloudinary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Optional;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.*;
 
 @Service
 public class FellowshipServiceImpl implements IFellowshipService {
@@ -43,6 +47,12 @@ public class FellowshipServiceImpl implements IFellowshipService {
     @Autowired
     private QualificationRepository qualificationRepository;
 
+    @Autowired
+    private DocumentRepository documentRepository;
+
+    @Autowired
+    private Cloudinary cloudinary;
+
     //METHOD FOR COPY HIRED CANDIDATE TABLE DATA TO FELLOWSHIP CANDIDATE TABLE
     @Override
     public boolean fellowshipCandidatesData() {
@@ -50,7 +60,8 @@ public class FellowshipServiceImpl implements IFellowshipService {
         ListIterator iterator = list.listIterator();
         while (iterator.hasNext()) {
             FellowshipModel fellowshipModel = mapper.map(iterator.next(), FellowshipModel.class);
-            if (fellowshipModel.getCandidateStatus().equals("Accept"))
+            if (fellowshipModel.getCandidateStatus().equals(ApplicationConfiguration.getMessageAccessor()
+                    .getMessage("115")))
                 fellowshipRepository.save(fellowshipModel);
         }
         return true;
@@ -118,5 +129,36 @@ public class FellowshipServiceImpl implements IFellowshipService {
         }).map(fellowshipRepository::save)
                 .orElseThrow(() -> new UserException(UserException.exceptionType.User_Not_FOUND, "Candidate Not Found"));
         return fellowshipModel1;
+    }
+
+    //METHOD FOR UPLOAD CANDIDATE DOCUMENT
+    @Override
+    public String uploadFile(MultipartFile file, String documentDto) {
+        try {
+            DocumentDto document = new ObjectMapper().readValue(documentDto, DocumentDto.class);
+            if (file.isEmpty())
+                throw new UserException(UserException.exceptionType.FiLE_NOT_FOUND, "Failed to store empty file");
+            Map<Object, Object> parameters = new HashMap<>();
+            parameters.put("public_id", "CandidateDocuments/" + document.getId() + "/" + file.getOriginalFilename());
+            File uploadedFile = convertMultiPartToFile(file);
+            Map uploadResult = cloudinary.uploader().upload(uploadedFile, parameters);
+            String documentPath = uploadResult.get("url").toString();
+            document.setDocumentPath(documentPath);
+            DocumentModel documentModel = mapper.map(document, DocumentModel.class);
+            documentRepository.save(documentModel);
+            return documentPath;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //METHOD FOR WRITE FILE
+    @Override
+    public File convertMultiPartToFile(MultipartFile file) throws IOException {
+        File convertFile = new File(file.getOriginalFilename());
+        FileOutputStream fos = new FileOutputStream(convertFile);
+        fos.write(file.getBytes());
+        fos.close();
+        return convertFile;
     }
 }

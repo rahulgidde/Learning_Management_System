@@ -6,6 +6,10 @@ import com.bridgelabz.lmsapplication.dto.QualificationDto;
 import com.bridgelabz.lmsapplication.model.BankDetailsModel;
 import com.bridgelabz.lmsapplication.model.FellowshipModel;
 import com.bridgelabz.lmsapplication.model.QualificationModel;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
 
 public interface IFellowshipService {
     public boolean fellowshipCandidatesData();
@@ -19,4 +23,8 @@ public interface IFellowshipService {
     public BankDetailsModel bankDetails(BankDetailsDto bankDetailsDto);
 
     public QualificationModel educationalInfo(QualificationDto qualificationDto);
+
+    public File convertMultiPartToFile(MultipartFile file) throws IOException;
+
+    public String uploadFile(MultipartFile file, String id);
 }
