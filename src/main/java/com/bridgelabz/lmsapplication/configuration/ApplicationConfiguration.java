@@ -2,8 +2,10 @@ package com.bridgelabz.lmsapplication.configuration;
 
 import com.bridgelabz.lmsapplication.filter.JwtRequestFilter;
 import com.bridgelabz.lmsapplication.service.UserServiceImpl;
+import com.cloudinary.Cloudinary;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -20,7 +22,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.annotation.PostConstruct;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 @Configuration
 @EnableWebSecurity
@@ -37,6 +41,15 @@ public class ApplicationConfiguration extends WebSecurityConfigurerAdapter {
     private JwtRequestFilter jwtRequestFilter;
 
     private static MessageSourceAccessor messageSourceAccessor;
+    @Value("${cloudinary.cloud_name}")
+    private String cloudName;
+
+    @Value("${cloudinary.api_key}")
+    private String apiKey;
+
+    @Value("${cloudinary.api_secret}")
+    private String apiSecret;
+
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -58,11 +71,8 @@ public class ApplicationConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
                 .authorizeRequests().antMatchers("/user/authenticate", "/user/registeruser", "/user/sendemail",
-                "/user/resetpassword", "/hirecandidate/loadhiredcandidates", "/hirecandidate/hiredcandidatelist",
-                "/hirecandidate/hiredcandidateprofile", "/hirecandidate/updatecandidatestatus", "/hirecandidate/sendemail",
-                "/fellowship/fellowshipcandidatesdata", "/fellowship/fellowshipcandidatecount", "/fellowship/sendjoboffer",
-                "/fellowship/updatepersonalnfo", "/fellowship/updatebankinfo", "/fellowship/updateeducationalinfo",
-                "/swagger-resources/**", "/swagger-ui.html", "/v2/api-docs", "/webjars/**").permitAll().
+                "/user/resetpassword", "/hirecandidate/*", "/fellowship/*", "/swagger-resources/**",
+                "/swagger-ui.html", "/v2/api-docs", "/webjars/**", "/fellowship/upload").permitAll().
                 anyRequest().authenticated().and().
                 exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -85,5 +95,16 @@ public class ApplicationConfiguration extends WebSecurityConfigurerAdapter {
 
     public static MessageSourceAccessor getMessageAccessor() {
         return messageSourceAccessor;
+    }
+
+    @Bean
+    public Cloudinary cloudinaryConfig() {
+        Cloudinary cloudinary = null;
+        Map config = new HashMap();
+        config.put("cloud_name", cloudName);
+        config.put("api_key", apiKey);
+        config.put("api_secret", apiSecret);
+        cloudinary = new Cloudinary(config);
+        return cloudinary;
     }
 }
