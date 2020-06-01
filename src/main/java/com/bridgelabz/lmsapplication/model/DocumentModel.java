@@ -1,7 +1,6 @@
 package com.bridgelabz.lmsapplication.model;
 
 import lombok.*;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
