@@ -65,7 +65,7 @@ public class FellowshipController {
     }
 
     //API FOR UPLOAD DOCUMENTS
-    @PostMapping("/uploaddocument")
+    @PostMapping("/uploadcandidatedocument")
     public ResponseEntity<ResponseDto> uploadFile(@RequestParam("file") MultipartFile file,
                                                   @RequestParam(value = "documentDto") String documentDto) {
         String url = fellowshipService.uploadFile(file, documentDto);
