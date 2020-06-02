@@ -1,15 +1,14 @@
 package com.bridgelabz.lmsapplication.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.Date;
 
-@Getter
-@Setter
+@Data
 @Entity(name = "fellowship_candidate")
 @Table
 public class FellowshipModel {
@@ -30,8 +29,8 @@ public class FellowshipModel {
     private String knowledgeRemark;
     private String aggregateRemark;
     private String status;
-    private Date creatorStamp;
-    private String creatorUser;
+    private LocalDateTime creatorStamp;
+    private long creatorUser;
     private Date birthDate;
     private String verifyBirthDate;
     private String parentName;

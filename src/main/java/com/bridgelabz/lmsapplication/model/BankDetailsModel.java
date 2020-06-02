@@ -24,7 +24,7 @@ public class BankDetailsModel {
     private LocalDateTime creatorStamp;
     private long creatorUser;
 
-    public LocalDateTime getCreatorStamp() {
+       public LocalDateTime getCreatorStamp() {
         return creatorStamp;
     }
 
