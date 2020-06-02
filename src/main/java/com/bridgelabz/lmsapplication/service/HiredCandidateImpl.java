@@ -19,6 +19,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.List;
 
@@ -132,9 +133,9 @@ public class HiredCandidateImpl implements IHiredCandidateService {
                         cell = (XSSFCell) cells.next();
                         hiredCandidateDto.setStatus(cell.getStringCellValue());
                         cell = (XSSFCell) cells.next();
-                        hiredCandidateDto.setCreatorStamp(cell.getDateCellValue());
+                        hiredCandidateDto.setCreatorStamp(LocalDateTime.now());
                         cell = (XSSFCell) cells.next();
-                        hiredCandidateDto.setCreatorUser(cell.getStringCellValue());
+                        hiredCandidateDto.setCreatorUser(hiredCandidateDto.getId());
                         HiredCandidateModel hiredCandidate = mapper.map(hiredCandidateDto, HiredCandidateModel.class);
                         repository.save(hiredCandidate);
                     }
