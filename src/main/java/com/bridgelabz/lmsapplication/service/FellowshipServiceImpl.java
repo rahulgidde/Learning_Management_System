@@ -1,31 +1,31 @@
 package com.bridgelabz.lmsapplication.service;
 
-        import com.bridgelabz.lmsapplication.configuration.ApplicationConfiguration;
-        import com.bridgelabz.lmsapplication.dto.BankDetailsDto;
-        import com.bridgelabz.lmsapplication.dto.DocumentDto;
-        import com.bridgelabz.lmsapplication.dto.PersonalInfoDto;
-        import com.bridgelabz.lmsapplication.dto.QualificationDto;
-        import com.bridgelabz.lmsapplication.exception.UserException;
-        import com.bridgelabz.lmsapplication.model.BankDetailsModel;
-        import com.bridgelabz.lmsapplication.model.DocumentModel;
-        import com.bridgelabz.lmsapplication.model.FellowshipModel;
-        import com.bridgelabz.lmsapplication.model.QualificationModel;
-        import com.bridgelabz.lmsapplication.repository.*;
-        import com.fasterxml.jackson.databind.ObjectMapper;
-        import org.modelmapper.ModelMapper;
-        import com.cloudinary.Cloudinary;
-        import org.springframework.beans.factory.annotation.Autowired;
-        import org.springframework.mail.javamail.JavaMailSender;
-        import org.springframework.mail.javamail.MimeMessageHelper;
-        import org.springframework.stereotype.Service;
-        import org.springframework.web.multipart.MultipartFile;
+import com.bridgelabz.lmsapplication.configuration.ApplicationConfiguration;
+import com.bridgelabz.lmsapplication.dto.BankDetailsDto;
+import com.bridgelabz.lmsapplication.dto.DocumentDto;
+import com.bridgelabz.lmsapplication.dto.PersonalInfoDto;
+import com.bridgelabz.lmsapplication.dto.QualificationDto;
+import com.bridgelabz.lmsapplication.exception.UserException;
+import com.bridgelabz.lmsapplication.model.BankDetailsModel;
+import com.bridgelabz.lmsapplication.model.DocumentModel;
+import com.bridgelabz.lmsapplication.model.FellowshipModel;
+import com.bridgelabz.lmsapplication.model.QualificationModel;
+import com.bridgelabz.lmsapplication.repository.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.modelmapper.ModelMapper;
+import com.cloudinary.Cloudinary;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-        import javax.mail.MessagingException;
-        import javax.mail.internet.MimeMessage;
-        import java.io.File;
-        import java.io.FileOutputStream;
-        import java.io.IOException;
-        import java.util.*;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.*;
 
 @Service
 public class FellowshipServiceImpl implements IFellowshipService {
