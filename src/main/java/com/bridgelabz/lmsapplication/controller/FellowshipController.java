@@ -14,12 +14,17 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/c")
+@RequestMapping("/fellowship")
 public class FellowshipController {
 
     @Autowired
     private IFellowshipService fellowshipService;
 
+    /**
+     * API FOR COPY ONE TABLE DATA TO ANOTHER TABLE
+     *
+     * @return response(hired candidate data into fellowship loaded or mot)
+     */
     //API FOR COPY ONE TABLE DATA TO ANOTHER TABLE
     @PostMapping(value = "/fellowshipcandidatesdata")
     public ResponseEntity<ResponseDto> fellowshipCandidatesData() {
@@ -27,13 +32,20 @@ public class FellowshipController {
                 ApplicationConfiguration.getMessageAccessor().getMessage("109")), HttpStatus.ACCEPTED);
     }
 
-    //API FOR GET CANDIDATE COUNT
+    /**
+     * API FOR GET CANDIDATE COUNT
+     *
+     * @return response(fellowship candidate count)
+     */
     @GetMapping(value = "/fellowshipcandidatecount")
     public ResponseEntity<ResponseDto> fellowshipCandidateCount() {
         return new ResponseEntity<>(new ResponseDto(fellowshipService.fellowshipCandidateCount(),
                 ApplicationConfiguration.getMessageAccessor().getMessage("113")), HttpStatus.FOUND);
     }
 
+    /**
+     * @return response (Mail Send successfully or not)
+     */
     //API FOR SEND JOB OFFER MAIL
     @PostMapping(value = "/sendjoboffer")
     public ResponseEntity<ResponseDto> sendJobOfferMail() {
@@ -41,7 +53,13 @@ public class FellowshipController {
                 ApplicationConfiguration.getMessageAccessor().getMessage("103")), HttpStatus.OK);
     }
 
-    //API FOR UPDATE CANDIDATE PERSONAL INFORMATION
+    /**
+     * API FOR UPDATE CANDIDATE PERSONAL INFORMATION
+     *
+     * @param id
+     * @param personalInfoDto
+     * @return response(Updated candidate personal information)
+     */
     @PutMapping(value = "/updatepersonalnfo")
     public ResponseEntity<ResponseDto> updateCandidatePersonalInfo(@RequestParam(value = "id") Long id,
                                                                    @RequestBody PersonalInfoDto personalInfoDto) {
@@ -50,6 +68,10 @@ public class FellowshipController {
                 .getMessage("114")), HttpStatus.FOUND);
     }
 
+    /**
+     * @param bankDetailsDto
+     * @return response(Updated candidate bank details)
+     */
     //API FOR UPDATE BANK INFORMATION
     @PostMapping(value = "/updatebankinfo")
     public ResponseEntity<ResponseDto> updateBankDetails(@RequestBody BankDetailsDto bankDetailsDto) {
@@ -57,14 +79,25 @@ public class FellowshipController {
                 ApplicationConfiguration.getMessageAccessor().getMessage("108")), HttpStatus.ACCEPTED);
     }
 
-    //API FOR UPDATE EDUCATIONAL DETAILS
+    /**
+     * API FOR UPDATE EDUCATIONAL DETAILS
+     *
+     * @param qualificationDto
+     * @return response(Updated candidate educational information)
+     */
     @PostMapping(value = "/updateeducationalinfo")
     public ResponseEntity<ResponseDto> updateEducationalInfo(@RequestBody QualificationDto qualificationDto) {
         return new ResponseEntity<>(new ResponseDto(fellowshipService.educationalInfo(qualificationDto),
                 ApplicationConfiguration.getMessageAccessor().getMessage("111")), HttpStatus.ACCEPTED);
     }
 
-    //API FOR UPLOAD DOCUMENTS
+    /**
+     * API FOR UPLOAD DOCUMENTS
+     *
+     * @param file
+     * @param documentDto
+     * @return response(updated candidate document)
+     */
     @PostMapping("/uploadcandidatedocument")
     public ResponseEntity<ResponseDto> uploadFile(@RequestParam("file") MultipartFile file,
                                                   @RequestParam(value = "documentDto") String documentDto) {
