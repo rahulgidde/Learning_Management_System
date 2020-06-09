@@ -20,7 +20,13 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
-    //API FOR AUTHENTICATE USER
+    /**
+     * API FOR AUTHENTICATE USER
+     *
+     * @param authenticationRequest
+     * @return token
+     * @throws Exception
+     */
     @PostMapping(value = "/authenticate")
     public ResponseEntity<ResponseDto> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
         String token = userService.createAuthenticationToken(authenticationRequest);
@@ -28,27 +34,49 @@ public class UserController {
                 .getMessage("106")), HttpStatus.OK);
     }
 
-    //API FOR USER LOGIN
+    /**
+     * API FOR USER LOGIN
+     *
+     * @return nothing
+     */
     @PostMapping(value = "/login")
     public ResponseEntity<String> login() {
-        return new ResponseEntity<>(ApplicationConfiguration.getMessageAccessor().getMessage("102"), HttpStatus.OK);
+        return new ResponseEntity<>(ApplicationConfiguration.getMessageAccessor().getMessage("102")
+                , HttpStatus.OK);
     }
 
-    //API FOR REGISTER USER IN LMS APPLICATION
+    /**
+     * API FOR REGISTER USER IN LMS APPLICATION
+     *
+     * @param user
+     * @return UserDetailModel
+     */
     @PostMapping(value = "/registeruser")
     public ResponseEntity<UserDetailModel> register(@RequestBody UserDto user) {
         return new ResponseEntity(new ResponseDto(userService.loadUserDetails(user), ApplicationConfiguration
                 .getMessageAccessor().getMessage("101")), HttpStatus.ACCEPTED);
     }
 
-    //FORGET PASSWORD API
+    /**
+     * FORGET PASSWORD API
+     *
+     * @param emailId
+     * @return response (mail send successfully or not)
+     * @throws MessagingException
+     */
     @PostMapping(value = "/sendemail")
     public ResponseEntity<ResponseDto> sentMail(@RequestParam(value = "emailId") String emailId) throws MessagingException {
         return new ResponseEntity<>(new ResponseDto(userService.sendEmail(emailId), ApplicationConfiguration.getMessageAccessor().
                 getMessage("103")), HttpStatus.OK);
     }
 
-    //RESET PASSWORD API
+    /**
+     * RESET PASSWORD API
+     *
+     * @param password
+     * @param token
+     * @return response (password updated or not)
+     */
     @PutMapping(value = "/resetpassword")
     public ResponseEntity<ResponseDto> resetPassword(@RequestParam(value = "password") String password,
                                                      @RequestParam(value = "token") String token) {
