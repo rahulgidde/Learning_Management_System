@@ -1,9 +1,10 @@
-package com.bridgelabz.lmsapplication.service;
+package com.bridgelabz.lmsapplication.util;
 
 import com.bridgelabz.lmsapplication.dto.EmailDto;
 import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -12,25 +13,28 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 @Component
-public class RabbitMQImpl implements IRabbitMQ{
+public class RabbitMQImpl implements IRabbitMQ {
 
     @Autowired
-    JavaMailSender javaMailSender;
+    private JavaMailSender javaMailSender;
 
-    @Qualifier("rabbitMq")
     @Autowired
     private AmqpTemplate amqpTemplate;
 
-    private String exchange = "rabbitExchange";
-    private String routingkey = "rabbitKey";
+    @Value("${spring.rabbitmq.template.exchange}")
+    private String exchangeName;
+
+    @Value("${spring.rabbitmq.template.routing-key}")
+    private String routingKey;
 
     @Override
-    public void send(EmailDto emailDto) {
-        amqpTemplate.convertAndSend(exchange, routingkey, emailDto);
+    public void sendMessageToQueue(EmailDto emailDto) {
+        amqpTemplate.convertAndSend(exchangeName, routingKey, emailDto);
     }
 
     @Override
-    public void sendmail(EmailDto emailDto) {
+    @RabbitListener(queues = "${spring.rabbitmq.template.default-receive-queue}")
+    public void sendMail(EmailDto emailDto) {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper;
         try {
@@ -41,7 +45,7 @@ public class RabbitMQImpl implements IRabbitMQ{
         } catch (MessagingException e) {
             e.printStackTrace();
         }
-         javaMailSender.send(message);
+        javaMailSender.send(message);
     }
 }
 
