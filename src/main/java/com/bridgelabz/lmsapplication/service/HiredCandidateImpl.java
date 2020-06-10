@@ -13,6 +13,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -34,6 +36,9 @@ public class HiredCandidateImpl implements IHiredCandidateService {
 
     @Autowired
     private EmailDto emailDto;
+
+    @Autowired
+    private TemplateEngine templateEngine;
 
     /**
      * METHOD FOR GET HIRED CANDIDATE LIST
@@ -68,11 +73,14 @@ public class HiredCandidateImpl implements IHiredCandidateService {
         repository.findByEmailId(emailId).map(hiredCandidateModel -> {
             emailDto.setSubject("Update Status");
             emailDto.setEmailId(emailId);
-            emailDto.setBody("Hii Rahul " +
-                    "You are selected for BridgeLabz fellowship program, if You want to join click on below link (ACCEPT)" +
-                    " http://localhost:8082/hirecandidate/updatecandidatestatus?id=1&status=Accept " +
-                    "otherwise (REJECT)" +
-                    "http://localhost:8082/hirecandidate/updatecandidatestatus?id=1&status=Reject");
+            final Context context = new Context();
+            context.setVariable("name", hiredCandidateModel.getFirstName());
+            context.setVariable("acceptLink","http://localhost:8082/hirecandidate/updatecandidatestatus?id="
+                    +hiredCandidateModel.getId()+"&status=Accept");
+            context.setVariable("rejectLink","http://localhost:8082/hirecandidate/updatecandidatestatus?id="
+                   +hiredCandidateModel.getId()+"&status=Reject");
+            String html = templateEngine.process("jobAcceptance", context);
+            emailDto.setBody(html);
             rabbitMQ.sendMessageToQueue(emailDto);
             return hiredCandidateModel;
         })
