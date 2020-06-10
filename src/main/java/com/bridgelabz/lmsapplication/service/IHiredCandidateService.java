@@ -1,6 +1,5 @@
 package com.bridgelabz.lmsapplication.service;
 
-import com.bridgelabz.lmsapplication.dto.EmailDto;
 import com.bridgelabz.lmsapplication.model.HiredCandidateModel;
 
 import java.util.List;
@@ -12,7 +11,7 @@ public interface IHiredCandidateService {
 
     HiredCandidateModel getHiredCandidatesProfile(Long candidateId);
 
-    boolean sendEmail(EmailDto emailDto);
+    boolean sendEmail(String emailId);
 
     HiredCandidateModel updateStatus(Long id, String status);
 }
