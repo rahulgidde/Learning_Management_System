@@ -1,10 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
+    <style>
+        .button1 {
+            background-color: #228B22;
+        }
+
+        /* Forest Green */
+
+        .button2 {
+            background-color: #FF0000;
+        }
+
+        /* Red */
+    </style>
 </head>
 <body>
-$END$
+<p>Hi <span th:text="${name}"></span>,</br> you have been selected for our Fellowship Program. Please click on the
+    Below Button.</p>
+<div>
+    <a th:href="@{${acceptLink}}">
+        <input type="button" class="button1" value="Accept">
+    </a>
+    <a th:href="@{${rejectLink}}">
+        <input type="button" class="button2" value="Reject">
+    </a>
+</div>
 </body>
 </html>
