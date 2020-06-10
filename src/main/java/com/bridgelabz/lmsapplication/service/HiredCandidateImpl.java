@@ -5,18 +5,15 @@ import com.bridgelabz.lmsapplication.dto.HiredCandidateDto;
 import com.bridgelabz.lmsapplication.exception.UserException;
 import com.bridgelabz.lmsapplication.model.HiredCandidateModel;
 import com.bridgelabz.lmsapplication.repository.CandidateRepository;
+import com.bridgelabz.lmsapplication.util.IRabbitMQ;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -33,48 +30,63 @@ public class HiredCandidateImpl implements IHiredCandidateService {
     private ModelMapper mapper;
 
     @Autowired
-    private JavaMailSender javaMailSender;
+    private IRabbitMQ rabbitMQ;
 
+    @Autowired
+    private EmailDto emailDto;
 
-    //METHOD FOR GET HIRED CANDIDATE LIST
+    /**
+     * METHOD FOR GET HIRED CANDIDATE LIST
+     *
+     * @return List
+     */
     @Override
     public List getHiredCandidatesList() {
         return repository.findAll();
     }
 
-    //METHOD FOR GET HIRED CANDIDATE  PROFILE
+    /**
+     * METHOD FOR GET HIRED CANDIDATE  PROFILE
+     *
+     * @param candidateId
+     * @return HiredCandidateModel
+     */
     @Override
     public HiredCandidateModel getHiredCandidatesProfile(Long candidateId) {
         return repository.findById(candidateId)
                 .orElseThrow(() -> new UserException(UserException.exceptionType.User_Not_FOUND, "Candidate Not Found"));
     }
 
-    //METHOD FOR SEND STATUS EMAIL
+    /**
+     * METHOD FOR SEND STATUS EMAIL
+     *
+     * @param emailId
+     * @return true
+     */
     @Override
-    public boolean sendEmail(EmailDto emailDto) {
-        repository.findByEmailId(emailDto.getEmailId()).map(hiredCandidateModel -> {
-            try {
-                MimeMessage message = javaMailSender.createMimeMessage();
-                MimeMessageHelper helper;
-                helper = new MimeMessageHelper(message, true);
-                helper.setSubject(emailDto.getSubject());
-                helper.setTo(hiredCandidateModel.getEmailId());
-                helper.setText("Hii Rahul " +
-                        "You are selected for BridgeLabz fellowship program, if You want to join click on below link (ACCEPT)" +
-                        " http://localhost:8082/hirecandidate/updatecandidatestatus?id=1&status=Accept " +
-                        "otherwise (REJECT)" +
-                        "http://localhost:8082/hirecandidate/updatecandidatestatus?id=1&status=Reject", true);
-                javaMailSender.send(message);
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            }
+    public boolean sendEmail(String emailId) {
+        repository.findByEmailId(emailId).map(hiredCandidateModel -> {
+            emailDto.setSubject("Update Status");
+            emailDto.setEmailId(emailId);
+            emailDto.setBody("Hii Rahul " +
+                    "You are selected for BridgeLabz fellowship program, if You want to join click on below link (ACCEPT)" +
+                    " http://localhost:8082/hirecandidate/updatecandidatestatus?id=1&status=Accept " +
+                    "otherwise (REJECT)" +
+                    "http://localhost:8082/hirecandidate/updatecandidatestatus?id=1&status=Reject");
+            rabbitMQ.sendMessageToQueue(emailDto);
             return hiredCandidateModel;
         })
                 .orElseThrow(() -> new UserException(UserException.exceptionType.INVALID_EMAIL_ID, "Invalid EmailId"));
         return true;
     }
 
-    //METHOD FOR UPDATE CANDIDATE STATUS
+    /**
+     * METHOD FOR UPDATE CANDIDATE STATUS
+     *
+     * @param id
+     * @param status
+     * @return HiredCandidateModel
+     */
     @Override
     public HiredCandidateModel updateStatus(Long id, String status) {
         return repository.findById(id)
@@ -85,7 +97,12 @@ public class HiredCandidateImpl implements IHiredCandidateService {
                 .orElseThrow(() -> new UserException(UserException.exceptionType.User_Not_FOUND, "Candidate Id Not Found"));
     }
 
-    //METHOD FOR LOAD HIRED CANDIDATE EXCEL SHEET
+    /**
+     * METHOD FOR LOAD HIRED CANDIDATE EXCEL SHEET
+     *
+     * @param filePath
+     * @return true
+     */
     @Override
     public boolean loadHiredCandidateSheet(String filePath) {
         int flag = 0;

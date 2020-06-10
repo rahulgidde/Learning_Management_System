@@ -1,27 +1,21 @@
 package com.bridgelabz.lmsapplication.service;
 
 import com.bridgelabz.lmsapplication.configuration.ApplicationConfiguration;
-import com.bridgelabz.lmsapplication.dto.BankDetailsDto;
-import com.bridgelabz.lmsapplication.dto.DocumentDto;
-import com.bridgelabz.lmsapplication.dto.PersonalInfoDto;
-import com.bridgelabz.lmsapplication.dto.QualificationDto;
+import com.bridgelabz.lmsapplication.dto.*;
 import com.bridgelabz.lmsapplication.exception.UserException;
 import com.bridgelabz.lmsapplication.model.BankDetailsModel;
 import com.bridgelabz.lmsapplication.model.DocumentModel;
 import com.bridgelabz.lmsapplication.model.FellowshipModel;
 import com.bridgelabz.lmsapplication.model.QualificationModel;
 import com.bridgelabz.lmsapplication.repository.*;
+import com.bridgelabz.lmsapplication.util.IRabbitMQ;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.modelmapper.ModelMapper;
 import com.cloudinary.Cloudinary;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -39,9 +33,6 @@ public class FellowshipServiceImpl implements IFellowshipService {
     private ModelMapper mapper;
 
     @Autowired
-    private JavaMailSender javaMailSender;
-
-    @Autowired
     private BankRepository bankRepository;
 
     @Autowired
@@ -53,7 +44,17 @@ public class FellowshipServiceImpl implements IFellowshipService {
     @Autowired
     private Cloudinary cloudinary;
 
-    //METHOD FOR COPY HIRED CANDIDATE TABLE DATA TO FELLOWSHIP CANDIDATE TABLE
+    @Autowired
+    private IRabbitMQ rabbitMQ;
+
+    @Autowired
+    private EmailDto emailDto;
+
+    /**
+     * METHOD FOR COPY HIRED CANDIDATE TABLE DATA TO FELLOWSHIP CANDIDATE TABLE
+     *
+     * @return true
+     */
     @Override
     public boolean fellowshipCandidatesData() {
         List list = candidateRepository.findAll();
@@ -67,13 +68,21 @@ public class FellowshipServiceImpl implements IFellowshipService {
         return true;
     }
 
-    //METHOD FOR GET FELLOWSHIP CANDIDATE COUNT
+    /**
+     * METHOD FOR GET FELLOWSHIP CANDIDATE COUNT
+     *
+     * @return candidate count
+     */
     @Override
     public int fellowshipCandidateCount() {
         return fellowshipRepository.findAll().size();
     }
 
-    //METHOD FOR SEND JOB OFFER MAIL
+    /**
+     * METHOD FOR SEND JOB OFFER MAIL
+     *
+     * @return true
+     */
     @Override
     public boolean jobOfferMail() {
         List list = fellowshipRepository.findAll();
@@ -81,38 +90,47 @@ public class FellowshipServiceImpl implements IFellowshipService {
         while (listIterator.hasNext()) {
             Optional<FellowshipModel> fellowshipModel = Optional.ofNullable((FellowshipModel) listIterator.next())
                     .map(fellowshipModel1 -> {
-                        try {
-                            MimeMessage message = javaMailSender.createMimeMessage();
-                            MimeMessageHelper helper;
-                            helper = new MimeMessageHelper(message, true);
-                            helper.setSubject("Job Offer Letter");
-                            helper.setTo(fellowshipModel1.getEmailId());
-                            helper.setText("You are selected for BridgeLabz fellowship program", true);
-                            javaMailSender.send(message);
-                        } catch (MessagingException e) {
-                            e.printStackTrace();
-                        }
+                        emailDto.setEmailId(fellowshipModel1.getEmailId());
+                        emailDto.setSubject("Job Offer Letter");
+                        emailDto.setBody("You are selected for BridgeLabz fellowship program");
+                        rabbitMQ.sendMessageToQueue(emailDto);
                         return null;
                     });
         }
         return true;
     }
 
-    //METHOD FOR UPDATE CANDIDATE BANK INFORMATION
+    /**
+     * METHOD FOR UPDATE CANDIDATE BANK INFORMATION
+     *
+     * @param bankDetailsDto
+     * @return BankDetailsModel
+     */
     @Override
     public BankDetailsModel bankDetails(BankDetailsDto bankDetailsDto) {
         BankDetailsModel bankDetailsModel = mapper.map(bankDetailsDto, BankDetailsModel.class);
         return bankRepository.save(bankDetailsModel);
     }
 
-    //METHOD FOR UPDATE EDUCATIONAL DETAILS
+    /**
+     * METHOD FOR UPDATE EDUCATIONAL DETAILS
+     *
+     * @param qualificationDto
+     * @return QualificationModel
+     */
     @Override
     public QualificationModel educationalInfo(QualificationDto qualificationDto) {
         QualificationModel qualificationModel = mapper.map(qualificationDto, QualificationModel.class);
         return qualificationRepository.save(qualificationModel);
     }
 
-    //METHOD FOR UPDATE PERSONAL INFORMATION
+    /**
+     * METHOD FOR UPDATE PERSONAL INFORMATION
+     *
+     * @param id
+     * @param personalInfoDto
+     * @return FellowshipModel
+     */
     @Override
     public FellowshipModel personalInfo(Long id, PersonalInfoDto personalInfoDto) {
         FellowshipModel fellowshipModel1 = fellowshipRepository.findById(id).map(fellowshipModel -> {
@@ -131,7 +149,13 @@ public class FellowshipServiceImpl implements IFellowshipService {
         return fellowshipModel1;
     }
 
-    //METHOD FOR UPLOAD CANDIDATE DOCUMENT
+    /**
+     * METHOD FOR UPLOAD CANDIDATE DOCUMENT
+     *
+     * @param file
+     * @param documentDto
+     * @return true
+     */
     @Override
     public String uploadFile(MultipartFile file, String documentDto) {
         try {
@@ -152,7 +176,13 @@ public class FellowshipServiceImpl implements IFellowshipService {
         }
     }
 
-    //METHOD FOR WRITE FILE
+    /**
+     * METHOD FOR WRITE FILE
+     *
+     * @param file
+     * @return file
+     * @throws IOException
+     */
     @Override
     public File convertMultiPartToFile(MultipartFile file) throws IOException {
         File convertFile = new File(file.getOriginalFilename());

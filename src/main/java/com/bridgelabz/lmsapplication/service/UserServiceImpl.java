@@ -6,11 +6,12 @@ import com.bridgelabz.lmsapplication.exception.UserException;
 import com.bridgelabz.lmsapplication.model.JwtRequest;
 import com.bridgelabz.lmsapplication.model.UserDetailModel;
 import com.bridgelabz.lmsapplication.repository.UserRepository;
+import com.bridgelabz.lmsapplication.util.IRabbitMQ;
 import com.bridgelabz.lmsapplication.util.JwtTokenUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -20,8 +21,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import java.util.ArrayList;
 
 @Service
@@ -37,15 +36,29 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
     private ModelMapper mapper;
 
     @Autowired
-    private JavaMailSender javaMailSender;
-
-    @Autowired
     private AuthenticationManager authenticationManager;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    //METHOD FOR FIND RECORD FORM REPOSITORY BY USERNAME
+    @Autowired
+    private IRabbitMQ rabbitMQ;
+
+    @Autowired
+    private EmailDto emailDto;
+
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+
+    @Value("spring.redis.key")
+    private String rediskey;
+
+    /**
+     * METHOD FOR FIND RECORD FORM REPOSITORY BY USERNAME
+     *
+     * @param username
+     * @return UserDetails
+     */
     @Override
     public UserDetails loadUserByUsername(String username) {
         UserDetailModel user = repository.findByUsername(username)
@@ -54,7 +67,12 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
                 new ArrayList<>());
     }
 
-    //METHOD FOR LOAD USER DETAILS
+    /**
+     * METHOD FOR LOAD USER DETAILS
+     *
+     * @param userDto
+     * @return UserDetailModel
+     */
     @Override
     public UserDetailModel loadUserDetails(UserDto userDto) {
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
@@ -62,7 +80,13 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
         return repository.save(user);
     }
 
-    //METHOD FOR REST PASSWORD
+    /**
+     * METHOD FOR REST PASSWORD
+     *
+     * @param token
+     * @param password
+     * @return UserDetailModel
+     */
     @Override
     public UserDetailModel resetPassword(String token, String password) {
         String id = jwtTokenUtil.getUsernameFromToken(token);
@@ -75,34 +99,47 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
                 .orElseThrow(() -> new UserException(UserException.exceptionType.User_Not_FOUND, "User Not Found"));
     }
 
-    //METHOD FOR SEND EMAIL
+    /**
+     * METHOD FOR SEND EMAIL
+     *
+     * @param emailId
+     * @return true
+     */
     @Override
-    public boolean sendEmail(String emailId) throws MessagingException {
-        EmailDto emailDto = new EmailDto();
-        emailDto.setEmailId(emailId);
+    public boolean sendEmail(String emailId) {
         UserDetailModel user = repository.findByEmail(emailId)
                 .orElseThrow(() -> new UserException(UserException.exceptionType.INVALID_EMAIL_ID, "EmailId Not Found"));
         final String token = jwtTokenUtil.generateEmailToken(user.getId());
-        MimeMessage message = javaMailSender.createMimeMessage();
-        MimeMessageHelper helper;
-        helper = new MimeMessageHelper(message, true);
-        helper.setSubject(emailDto.getSubject());
-        helper.setTo(emailId);
-        helper.setText(token, true);
-        javaMailSender.send(message);
+        emailDto.setEmailId(emailId);
+        emailDto.setSubject("Forget Password");
+        emailDto.setBody(token);
+        rabbitMQ.sendMessageToQueue(emailDto);
         return true;
     }
 
-    //METHOD FOR USER AUTHENTICATION
+    /**
+     * METHOD FOR USER AUTHENTICATION
+     *
+     * @param authenticationRequest
+     * @return token
+     * @throws Exception
+     */
     @Override
     public String createAuthenticationToken(JwtRequest authenticationRequest) throws Exception {
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
         final UserDetails userDetails = loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
+        redisTemplate.opsForHash().put(rediskey, authenticationRequest.getUsername(), token);
         return token;
     }
 
-    //METHOD FOR CHECK USER AUTHENTICATION
+    /**
+     * METHOD FOR CHECK USER AUTHENTICATION
+     *
+     * @param username
+     * @param password
+     * @throws Exception
+     */
     @Override
     public void authenticate(String username, String password) throws Exception {
         try {
