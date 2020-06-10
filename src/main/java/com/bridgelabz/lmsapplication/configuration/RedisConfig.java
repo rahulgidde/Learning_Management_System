@@ -1,6 +1,5 @@
 package com.bridgelabz.lmsapplication.configuration;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -13,22 +12,16 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @EnableCaching
 public class RedisConfig extends CachingConfigurerSupport {
 
-    @Value("spring.redis.host")
-    private String hostName;
-
-    @Value("spring.redis.port")
-    private int port;
-
     @Bean
-    JedisConnectionFactory jedisConnectionFactory() {
+    JedisConnectionFactory jedisConnectionFactory(){
         JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory();
-        jedisConnectionFactory.setHostName(hostName);
-        jedisConnectionFactory.setPort(port);
+        jedisConnectionFactory.setHostName(System.getenv().get("hostname"));
+        jedisConnectionFactory.setPort(Integer.parseInt(System.getenv().get("port")));
         return jedisConnectionFactory;
     }
 
     @Bean
-    RedisTemplate<String, Object> getRedisTemplate() {
+    RedisTemplate<String,Object> getRedisTemplate(){
         RedisTemplate redisTemplate = new RedisTemplate();
         redisTemplate.setConnectionFactory(jedisConnectionFactory());
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
