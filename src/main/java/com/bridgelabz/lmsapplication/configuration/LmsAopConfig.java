@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Aspect
 @Configuration
-public class LmsAspectConfig {
+public class LmsAopConfig {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Before("execution(* com.bridgelabz.lmsapplication.service.*.*(..))")
