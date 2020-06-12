@@ -27,22 +27,11 @@ public class UserController {
      * @return token
      * @throws Exception
      */
-    @PostMapping(value = "/authenticate")
+    @PostMapping(value = "/login")
     public ResponseEntity<ResponseDto> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
         String token = userService.createAuthenticationToken(authenticationRequest);
         return new ResponseEntity<>(new ResponseDto(token, ApplicationConfiguration.getMessageAccessor()
-                .getMessage("106")), HttpStatus.OK);
-    }
-
-    /**
-     * API FOR USER LOGIN
-     *
-     * @return nothing
-     */
-    @PostMapping(value = "/login")
-    public ResponseEntity<String> login() {
-        return new ResponseEntity<>(ApplicationConfiguration.getMessageAccessor().getMessage("102")
-                , HttpStatus.OK);
+                .getMessage("102")), HttpStatus.OK);
     }
 
     /**
