@@ -8,10 +8,10 @@ import com.bridgelabz.lmsapplication.model.UserDetailModel;
 import com.bridgelabz.lmsapplication.repository.UserRepository;
 import com.bridgelabz.lmsapplication.util.IRabbitMQ;
 import com.bridgelabz.lmsapplication.util.JwtTokenUtil;
+import com.bridgelabz.lmsapplication.util.RedisUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
     private EmailDto emailDto;
 
     @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    private RedisUtil redisUtil;
 
     @Value("spring.redis.key")
     private String rediskey;
@@ -129,7 +129,7 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
         final UserDetails userDetails = loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
-        redisTemplate.opsForHash().put(rediskey, authenticationRequest.getUsername(), token);
+        redisUtil.save(rediskey, authenticationRequest.getUsername(), token);
         return token;
     }
 
