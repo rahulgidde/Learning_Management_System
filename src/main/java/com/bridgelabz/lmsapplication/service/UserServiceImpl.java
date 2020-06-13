@@ -7,8 +7,8 @@ import com.bridgelabz.lmsapplication.model.JwtRequest;
 import com.bridgelabz.lmsapplication.model.UserDetailModel;
 import com.bridgelabz.lmsapplication.repository.UserRepository;
 import com.bridgelabz.lmsapplication.util.IRabbitMQ;
+import com.bridgelabz.lmsapplication.util.IRedisUtil;
 import com.bridgelabz.lmsapplication.util.JwtTokenUtil;
-import com.bridgelabz.lmsapplication.util.RedisUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,10 +48,10 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
     private EmailDto emailDto;
 
     @Autowired
-    private RedisUtil redisUtil;
+    private IRedisUtil redisUtil;
 
     @Value("spring.redis.key")
-    private String rediskey;
+    private String redisKey;
 
     /**
      * METHOD FOR FIND RECORD FORM REPOSITORY BY USERNAME
@@ -129,7 +129,7 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
         final UserDetails userDetails = loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
-        redisUtil.save(rediskey, authenticationRequest.getUsername(), token);
+        redisUtil.save(redisKey, authenticationRequest.getUsername(), token);
         return token;
     }
 

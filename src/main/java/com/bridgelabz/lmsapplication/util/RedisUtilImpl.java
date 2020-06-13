@@ -7,17 +7,19 @@ import org.springframework.stereotype.Component;
 import java.io.Serializable;
 
 @Component
-public class RedisUtil implements Serializable {
+public class RedisUtilImpl implements IRedisUtil, Serializable {
     private static final long serialVersionUID = 1L;
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
-    public void save(String rediskey, String userName, String token) {
-        redisTemplate.opsForHash().put(rediskey, userName, token);
+    @Override
+    public void save(String redisKey, String userName, String token) {
+        redisTemplate.opsForHash().put(redisKey, userName, token);
     }
 
-    public Object getRedisToken(String rediskey, String userName) {
-        return redisTemplate.opsForHash().get(rediskey, userName);
+    @Override
+    public Object getRedisToken(String redisKey, String userName) {
+        return redisTemplate.opsForHash().get(redisKey, userName);
     }
 }

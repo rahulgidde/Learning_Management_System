@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bridgelabz.lmsapplication.exception.UserException;
 import com.bridgelabz.lmsapplication.service.UserServiceImpl;
+import com.bridgelabz.lmsapplication.util.IRedisUtil;
 import com.bridgelabz.lmsapplication.util.JwtTokenUtil;
-import com.bridgelabz.lmsapplication.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,10 +32,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
-    private RedisUtil redisUtil;
+    private IRedisUtil redisUtil;
 
     @Value("spring.redis.key")
-    private String rediskey;
+    private String redisKey;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -50,7 +50,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             jwtToken = requestTokenHeader.substring(7);
             try {
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
-                Object token = redisUtil.getRedisToken(rediskey, username);
+                Object token = redisUtil.getRedisToken(redisKey, username);
                 if (jwtToken.equals(token))
                     throw new UserException(UserException.exceptionType.INVALID_TOKEN, "Invalid Token");
             } catch (IllegalArgumentException e) {
