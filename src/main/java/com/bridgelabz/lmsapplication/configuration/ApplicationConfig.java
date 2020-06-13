@@ -25,7 +25,7 @@ import java.util.Locale;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class ApplicationConfiguration extends WebSecurityConfigurerAdapter {
+public class ApplicationConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;

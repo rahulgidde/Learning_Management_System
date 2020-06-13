@@ -8,9 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-public class CloudinaryConfiguration {
+public class CloudinaryConfig {
     @Bean
-    public Cloudinary cloudinaryConfig() {
+    public Cloudinary getCloudinary() {
         Cloudinary cloudinary = null;
         Map config = new HashMap();
         config.put("cloud_name", System.getenv().get("cloudinary.cloud_name"));

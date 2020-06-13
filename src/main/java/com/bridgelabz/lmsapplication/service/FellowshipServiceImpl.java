@@ -1,6 +1,6 @@
 package com.bridgelabz.lmsapplication.service;
 
-import com.bridgelabz.lmsapplication.configuration.ApplicationConfiguration;
+import com.bridgelabz.lmsapplication.configuration.ApplicationConfig;
 import com.bridgelabz.lmsapplication.dto.*;
 import com.bridgelabz.lmsapplication.exception.UserException;
 import com.bridgelabz.lmsapplication.model.BankDetailsModel;
@@ -61,7 +61,7 @@ public class FellowshipServiceImpl implements IFellowshipService {
         ListIterator iterator = list.listIterator();
         while (iterator.hasNext()) {
             FellowshipModel fellowshipModel = mapper.map(iterator.next(), FellowshipModel.class);
-            if (fellowshipModel.getCandidateStatus().equals(ApplicationConfiguration.getMessageAccessor()
+            if (fellowshipModel.getCandidateStatus().equals(ApplicationConfig.getMessageAccessor()
                     .getMessage("115")))
                 fellowshipRepository.save(fellowshipModel);
         }

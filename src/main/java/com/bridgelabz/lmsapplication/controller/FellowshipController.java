@@ -1,6 +1,6 @@
 package com.bridgelabz.lmsapplication.controller;
 
-import com.bridgelabz.lmsapplication.configuration.ApplicationConfiguration;
+import com.bridgelabz.lmsapplication.configuration.ApplicationConfig;
 import com.bridgelabz.lmsapplication.dto.BankDetailsDto;
 import com.bridgelabz.lmsapplication.dto.PersonalInfoDto;
 import com.bridgelabz.lmsapplication.dto.QualificationDto;
@@ -29,7 +29,7 @@ public class FellowshipController {
     @PostMapping(value = "/fellowshipcandidatesdata")
     public ResponseEntity<ResponseDto> fellowshipCandidatesData() {
         return new ResponseEntity<>(new ResponseDto(fellowshipService.fellowshipCandidatesData(),
-                ApplicationConfiguration.getMessageAccessor().getMessage("109")), HttpStatus.ACCEPTED);
+                ApplicationConfig.getMessageAccessor().getMessage("109")), HttpStatus.ACCEPTED);
     }
 
     /**
@@ -40,7 +40,7 @@ public class FellowshipController {
     @GetMapping(value = "/fellowshipcandidatecount")
     public ResponseEntity<ResponseDto> fellowshipCandidateCount() {
         return new ResponseEntity<>(new ResponseDto(fellowshipService.fellowshipCandidateCount(),
-                ApplicationConfiguration.getMessageAccessor().getMessage("113")), HttpStatus.FOUND);
+                ApplicationConfig.getMessageAccessor().getMessage("113")), HttpStatus.FOUND);
     }
 
     /**
@@ -50,7 +50,7 @@ public class FellowshipController {
     @PostMapping(value = "/sendjoboffer")
     public ResponseEntity<ResponseDto> sendJobOfferMail() {
         return new ResponseEntity<>(new ResponseDto(fellowshipService.jobOfferMail(),
-                ApplicationConfiguration.getMessageAccessor().getMessage("103")), HttpStatus.OK);
+                ApplicationConfig.getMessageAccessor().getMessage("103")), HttpStatus.OK);
     }
 
     /**
@@ -64,7 +64,7 @@ public class FellowshipController {
     public ResponseEntity<ResponseDto> updateCandidatePersonalInfo(@RequestParam(value = "id") Long id,
                                                                    @RequestBody PersonalInfoDto personalInfoDto) {
         FellowshipModel fellowshipModel = fellowshipService.personalInfo(id, personalInfoDto);
-        return new ResponseEntity<>(new ResponseDto(fellowshipModel, ApplicationConfiguration.getMessageAccessor()
+        return new ResponseEntity<>(new ResponseDto(fellowshipModel, ApplicationConfig.getMessageAccessor()
                 .getMessage("114")), HttpStatus.FOUND);
     }
 
@@ -76,7 +76,7 @@ public class FellowshipController {
     @PostMapping(value = "/updatebankinfo")
     public ResponseEntity<ResponseDto> updateBankDetails(@RequestBody BankDetailsDto bankDetailsDto) {
         return new ResponseEntity<>(new ResponseDto(fellowshipService.bankDetails(bankDetailsDto),
-                ApplicationConfiguration.getMessageAccessor().getMessage("108")), HttpStatus.ACCEPTED);
+                ApplicationConfig.getMessageAccessor().getMessage("108")), HttpStatus.ACCEPTED);
     }
 
     /**
@@ -88,7 +88,7 @@ public class FellowshipController {
     @PostMapping(value = "/updateeducationalinfo")
     public ResponseEntity<ResponseDto> updateEducationalInfo(@RequestBody QualificationDto qualificationDto) {
         return new ResponseEntity<>(new ResponseDto(fellowshipService.educationalInfo(qualificationDto),
-                ApplicationConfiguration.getMessageAccessor().getMessage("111")), HttpStatus.ACCEPTED);
+                ApplicationConfig.getMessageAccessor().getMessage("111")), HttpStatus.ACCEPTED);
     }
 
     /**
@@ -102,7 +102,7 @@ public class FellowshipController {
     public ResponseEntity<ResponseDto> uploadFile(@RequestParam("file") MultipartFile file,
                                                   @RequestParam(value = "documentDto") String documentDto) {
         String url = fellowshipService.uploadFile(file, documentDto);
-        return new ResponseEntity<>(new ResponseDto(url, ApplicationConfiguration.getMessageAccessor()
+        return new ResponseEntity<>(new ResponseDto(url, ApplicationConfig.getMessageAccessor()
                 .getMessage("116")), HttpStatus.ACCEPTED);
     }
 }

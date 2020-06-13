@@ -1,6 +1,6 @@
 package com.bridgelabz.lmsapplication.controller;
 
-import com.bridgelabz.lmsapplication.configuration.ApplicationConfiguration;
+import com.bridgelabz.lmsapplication.configuration.ApplicationConfig;
 import com.bridgelabz.lmsapplication.dto.ResponseDto;
 import com.bridgelabz.lmsapplication.dto.UserDto;
 import com.bridgelabz.lmsapplication.model.JwtRequest;
@@ -30,7 +30,7 @@ public class UserController {
     @PostMapping(value = "/login")
     public ResponseEntity<ResponseDto> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
         String token = userService.createAuthenticationToken(authenticationRequest);
-        return new ResponseEntity<>(new ResponseDto(token, ApplicationConfiguration.getMessageAccessor()
+        return new ResponseEntity<>(new ResponseDto(token, ApplicationConfig.getMessageAccessor()
                 .getMessage("102")), HttpStatus.OK);
     }
 
@@ -42,7 +42,7 @@ public class UserController {
      */
     @PostMapping(value = "/registeruser")
     public ResponseEntity<UserDetailModel> register(@RequestBody UserDto user) {
-        return new ResponseEntity(new ResponseDto(userService.loadUserDetails(user), ApplicationConfiguration
+        return new ResponseEntity(new ResponseDto(userService.loadUserDetails(user), ApplicationConfig
                 .getMessageAccessor().getMessage("101")), HttpStatus.ACCEPTED);
     }
 
@@ -55,7 +55,7 @@ public class UserController {
      */
     @PostMapping(value = "/sendemail")
     public ResponseEntity<ResponseDto> sentMail(@RequestParam(value = "emailId") String emailId) throws MessagingException {
-        return new ResponseEntity<>(new ResponseDto(userService.sendEmail(emailId), ApplicationConfiguration.getMessageAccessor().
+        return new ResponseEntity<>(new ResponseDto(userService.sendEmail(emailId), ApplicationConfig.getMessageAccessor().
                 getMessage("103")), HttpStatus.OK);
     }
 
@@ -69,7 +69,7 @@ public class UserController {
     @PutMapping(value = "/resetpassword")
     public ResponseEntity<ResponseDto> resetPassword(@RequestParam(value = "password") String password,
                                                      @RequestParam(value = "token") String token) {
-        return new ResponseEntity<>(new ResponseDto(userService.resetPassword(token, password), ApplicationConfiguration
+        return new ResponseEntity<>(new ResponseDto(userService.resetPassword(token, password), ApplicationConfig
                 .getMessageAccessor().getMessage("104")), HttpStatus.OK);
     }
 }

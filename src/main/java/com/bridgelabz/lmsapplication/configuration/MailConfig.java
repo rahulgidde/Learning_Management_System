@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Properties;
 
 @Configuration
-public class MailConfiguration {
+public class MailConfig {
 
     @Bean
     public JavaMailSender getJavaMailSender() {
